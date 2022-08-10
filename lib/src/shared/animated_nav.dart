@@ -1,12 +1,16 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
 
 import 'package:easy_nav/src/shared/colors.dart';
+import 'package:easy_nav/src/shared/icon_button.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:line_icons/line_icons.dart';
 import 'dart:math' as math;
 
 class EasyNavigationMenu extends StatefulWidget {
-  const EasyNavigationMenu({Key? key}) : super(key: key);
+  final List<NavButton> navItems;
+  const EasyNavigationMenu({Key? key, required this.navItems})
+      : super(key: key);
 
   @override
   State<EasyNavigationMenu> createState() => _EasyNavigationMenuState();
@@ -14,14 +18,16 @@ class EasyNavigationMenu extends StatefulWidget {
 
 class _EasyNavigationMenuState extends State<EasyNavigationMenu>
     with SingleTickerProviderStateMixin {
-  final double menuRadius = 164.0;
+  final double menuRadius = 168.0;
   final double buttonRadius = 44.0;
-  bool _isOpen = false;
+
   late AnimationController _controller;
   late Animation<double> _scaleAnimation;
   late final Animation<double> _expandAnimation;
   late Animation _scaleCurve;
-  double currentRad = 1.0;
+
+  bool _isOpen = false;
+  int currentActiveButtonIndex = 0;
 
   @override
   void initState() {
@@ -44,7 +50,6 @@ class _EasyNavigationMenuState extends State<EasyNavigationMenu>
       reverseCurve: Curves.fastLinearToSlowEaseIn,
       parent: _controller,
     );
-
     super.initState();
   }
 
@@ -74,24 +79,30 @@ class _EasyNavigationMenuState extends State<EasyNavigationMenu>
             width: menuRadius,
           ),
         ),
-        ..._buildExpandingActionButtons([
-          IconButton(onPressed: () {}, icon: Icon(LineIcons.dotCircle)),
-          IconButton(
-              onPressed: () {}, icon: Icon(LineIcons.faceWithRollingEyes)),
-          IconButton(onPressed: () {}, icon: Icon(LineIcons.yelp)),
-          IconButton(onPressed: () {}, icon: Icon(LineIcons.hockeyPuck)),
-          IconButton(onPressed: () {}, icon: Icon(LineIcons.firefox)),
-          IconButton(onPressed: () {}, icon: Icon(LineIcons.faceBlowingAKiss)),
-          IconButton(onPressed: () {}, icon: Icon(LineIcons.meteor)),
-          IconButton(
-              onPressed: () {}, icon: Icon(LineIcons.amazonWebServicesAws)),
-          IconButton(onPressed: () {}, icon: Icon(LineIcons.cheese)),
-        ]),
+        for (var index = 0, angleInDegrees = 0.0;
+            index < widget.navItems.length;
+            index++,
+            angleInDegrees +=
+                (widget.navItems.length * 60.0) / (widget.navItems.length - 1))
+          _ExpandingActionButton(
+            click: () {
+              setState(() {
+                currentActiveButtonIndex = index;
+              });
+            },
+            directionInDegrees: angleInDegrees,
+            maxDistance: 62,
+            progress: _expandAnimation,
+            isActive: index == currentActiveButtonIndex,
+            child: widget.navItems[index],
+          ),
         InkWell(
           onTap: () {
             setState(() {
               _isOpen = !_isOpen;
-              print(_controller.value);
+              if (kDebugMode) {
+                print(_controller.value);
+              }
               _isOpen ? _controller.forward() : _controller.reverse();
             });
           },
@@ -125,66 +136,61 @@ class _EasyNavigationMenuState extends State<EasyNavigationMenu>
       ],
     );
   }
-
-  List<Widget> _buildExpandingActionButtons(List<Widget> widgets) {
-    final children = <Widget>[];
-    final count = widgets.length;
-    final step = (count * 60.0) / (count - 1);
-    for (var i = 0, angleInDegrees = 0.0;
-        i < count;
-        i++, angleInDegrees += step) {
-      children.add(
-        _ExpandingActionButton(
-          directionInDegrees: angleInDegrees,
-          maxDistance: 64,
-          progress: _expandAnimation,
-          child: widgets[i],
-        ),
-      );
-    }
-    return children;
-  }
 }
 
 @immutable
-class _ExpandingActionButton extends StatelessWidget {
-  const _ExpandingActionButton({
-    required this.directionInDegrees,
-    required this.maxDistance,
-    required this.progress,
-    required this.child,
-  });
+class _ExpandingActionButton extends StatefulWidget {
+  const _ExpandingActionButton(
+      {required this.directionInDegrees,
+      required this.maxDistance,
+      required this.progress,
+      required this.child,
+      required this.isActive,
+      required this.click});
 
   final double directionInDegrees;
   final double maxDistance;
   final Animation<double> progress;
-  final Widget child;
+  final NavButton child;
+  final bool isActive;
+  final VoidCallback click;
 
+  @override
+  State<_ExpandingActionButton> createState() => _ExpandingActionButtonState();
+}
+
+class _ExpandingActionButtonState extends State<_ExpandingActionButton> {
   @override
   Widget build(BuildContext context) {
     return AnimatedBuilder(
-      animation: progress,
+      animation: widget.progress,
       builder: (context, child) {
         final offset = Offset.fromDirection(
-          directionInDegrees * (math.pi / 300.0),
-          progress.value * maxDistance,
+          widget.directionInDegrees * (math.pi / 274.0),
+          widget.progress.value * widget.maxDistance,
         );
         return Positioned(
-          right: 58.0 + offset.dx,
-          bottom: 58.0 + offset.dy - 2,
+          right: 67.0 + offset.dx,
+          bottom: 68.0 + offset.dy - 2,
           child: Transform.rotate(
-            angle: (1.0 - progress.value) * math.pi / 2,
+            angle: (1.0 - widget.progress.value) * math.pi / 2,
             child: child!,
           ),
         );
       },
       child: FadeTransition(
-        opacity: progress,
-        child: child,
+        opacity: widget.progress,
+        child: NavButton(
+          onTap: () {
+            widget.click();
+            widget.child.onTap!();
+          },
+          icon: widget.child.icon,
+          activeIconColor: widget.child.activeIconColor,
+          iconColor: widget.child.iconColor,
+          isActive: widget.isActive,
+        ),
       ),
     );
   }
 }
-
-
-// 6 -> 220

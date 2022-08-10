@@ -1,4 +1,4 @@
 extension DurationExtension on int {
-  Duration get s => Duration(seconds: this);
+  Duration get sec => Duration(seconds: this);
   Duration get ms => Duration(milliseconds: this);
 }
