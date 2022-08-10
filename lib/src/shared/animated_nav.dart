@@ -26,7 +26,7 @@ class _EasyNavigationMenuState extends State<EasyNavigationMenu>
   @override
   void initState() {
     _controller = AnimationController(
-      duration: const Duration(milliseconds: 400),
+      duration: const Duration(milliseconds: 500),
       vsync: this,
     );
 
