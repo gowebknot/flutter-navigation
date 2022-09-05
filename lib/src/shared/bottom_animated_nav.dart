@@ -1,15 +1,20 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
 
-import 'package:easy_nav/src/shared/colors.dart';
-import 'package:easy_nav/src/shared/icon_button.dart';
+import 'dart:math' as math;
+import 'dart:math';
+
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:line_icons/line_icons.dart';
-import 'dart:math' as math;
+
+import 'package:easy_nav/src/shared/colors.dart';
+import 'package:easy_nav/src/shared/icon_button_2.dart';
 
 class BottomAnimatedNav extends StatefulWidget {
-  final List<NavButton> navItems;
-  const BottomAnimatedNav({Key? key, required this.navItems}) : super(key: key);
+  final List<BottomNavButton> navItems;
+  const BottomAnimatedNav({Key? key, required this.navItems})
+      : assert(navItems.length >= 1 && navItems.length <= 5),
+        super(key: key);
 
   @override
   State<BottomAnimatedNav> createState() => _BottomAnimatedNavState();
@@ -18,7 +23,8 @@ class BottomAnimatedNav extends StatefulWidget {
 class _BottomAnimatedNavState extends State<BottomAnimatedNav>
     with SingleTickerProviderStateMixin {
   final double menuRadius = 168.0;
-  final double buttonRadius = 44.0;
+  final double buttonRadius = 52.0;
+  Map<int, double> anglesMap = {5: 58, 4: 72, 3: 96, 2: 120, 1: 120};
 
   late AnimationController _controller;
   late Animation<double> _scaleAnimation;
@@ -60,15 +66,12 @@ class _BottomAnimatedNavState extends State<BottomAnimatedNav>
 
   @override
   Widget build(BuildContext context) {
-    final size = MediaQuery.of(context).size;
-
-    return Stack(
-      alignment: Alignment.bottomCenter,
-      children: [
-        Align(
+    return SafeArea(
+      child: Center(
+        child: Align(
           alignment: Alignment.bottomCenter,
           child: Transform.translate(
-            offset: Offset(0, size.height / 14 + 18),
+            offset: Offset(0, 100),
             child: Stack(
               alignment: Alignment.center,
               children: [
@@ -82,24 +85,34 @@ class _BottomAnimatedNavState extends State<BottomAnimatedNav>
                   child: Container(
                     decoration: BoxDecoration(
                         borderRadius: BorderRadius.all(Radius.circular(100.0)),
-                        color: whiteColor),
+                        color: greyBgColor),
                     height: menuRadius,
                     width: menuRadius,
+                    child: CustomPaint(
+                      painter: WheelPainter(
+                          index: currentActiveButtonIndex,
+                          widgetsCount: widget.navItems.length),
+                    ),
                   ),
                 ),
-                for (var index = 0, angleInDegrees = 15.0;
+                for (var index = 0,
+                        angleInDegrees = (widget.navItems.length <= 2)
+                            ? (widget.navItems.length + 40.0)
+                            : (widget.navItems.length + 22.0);
                     index < widget.navItems.length;
                     index++,
-                    angleInDegrees += (widget.navItems.length * 60.0) /
+                    angleInDegrees += (widget.navItems.length *
+                            anglesMap[widget.navItems.length]!) /
                         (widget.navItems.length - 1))
                   _ExpandingActionButton(
+                    index: index,
                     click: () {
                       setState(() {
                         currentActiveButtonIndex = index;
                       });
                     },
                     directionInDegrees: angleInDegrees,
-                    maxDistance: 62,
+                    maxDistance: 63,
                     progress: _expandAnimation,
                     isActive: index == currentActiveButtonIndex,
                     child: widget.navItems[index],
@@ -115,39 +128,47 @@ class _BottomAnimatedNavState extends State<BottomAnimatedNav>
                     });
                   },
                   child: Container(
-                      decoration: BoxDecoration(
-                          boxShadow: [
-                            BoxShadow(
-                              color: Colors.black.withOpacity(0.2),
-                              offset: const Offset(
-                                2.0,
-                                4.0,
-                              ),
-                              blurRadius: 8.0,
-                              spreadRadius: 1.0,
-                            )
-                          ],
-                          borderRadius:
-                              BorderRadius.all(Radius.circular(100.0)),
-                          color: primaryColor),
-                      height: buttonRadius,
-                      width: buttonRadius,
-                      child: RotationTransition(
-                        turns:
-                            Tween(begin: 0.0, end: 0.13).animate(_controller),
-                        child: Center(
-                            child: Icon(
-                          LineIcons.plus,
-                          color: Colors.white,
-                          size: 26.0,
-                        )),
-                      )),
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.only(
+                          topLeft: Radius.circular(100),
+                          topRight: Radius.circular(100),
+                        ),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.black.withOpacity(0.2),
+                            offset: const Offset(
+                              2.0,
+                              4.0,
+                            ),
+                            blurRadius: 8.0,
+                            spreadRadius: 1.0,
+                          )
+                        ],
+                        color: whiteColor),
+                    height: buttonRadius,
+                    width: buttonRadius,
+                    child: Align(
+                      alignment: Alignment.topCenter,
+                      child: Padding(
+                        padding: const EdgeInsets.only(top: 6.0),
+                        child: RotationTransition(
+                          turns:
+                              Tween(begin: 0.0, end: 0.13).animate(_controller),
+                          child: Icon(
+                            LineIcons.plus,
+                            color: greyBgColor,
+                            size: 19.0,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
                 ),
               ],
             ),
           ),
         ),
-      ],
+      ),
     );
   }
 }
@@ -160,13 +181,15 @@ class _ExpandingActionButton extends StatefulWidget {
       required this.progress,
       required this.child,
       required this.isActive,
+      required this.index,
       required this.click});
 
   final double directionInDegrees;
   final double maxDistance;
   final Animation<double> progress;
-  final NavButton child;
+  final BottomNavButton child;
   final bool isActive;
+  final int index;
   final VoidCallback click;
 
   @override
@@ -176,16 +199,16 @@ class _ExpandingActionButton extends StatefulWidget {
 class _ExpandingActionButtonState extends State<_ExpandingActionButton> {
   @override
   Widget build(BuildContext context) {
+    final offset = Offset.fromDirection(
+      widget.directionInDegrees * (math.pi / 338.0),
+      widget.progress.value * widget.maxDistance,
+    );
     return AnimatedBuilder(
       animation: widget.progress,
       builder: (context, child) {
-        final offset = Offset.fromDirection(
-          widget.directionInDegrees * (math.pi / 340.0),
-          widget.progress.value * widget.maxDistance,
-        );
         return Positioned(
-          right: 67.0 + offset.dx,
-          bottom: 68.0 + offset.dy - 2,
+          right: 70.0 + offset.dx,
+          bottom: 72.0 + offset.dy,
           child: Transform.rotate(
             angle: (1.0 - widget.progress.value) * math.pi / 2,
             child: child!,
@@ -194,17 +217,65 @@ class _ExpandingActionButtonState extends State<_ExpandingActionButton> {
       },
       child: FadeTransition(
         opacity: widget.progress,
-        child: NavButton(
-          onTap: () {
-            widget.click();
-            widget.child.onTap!();
-          },
-          icon: widget.child.icon,
-          activeIconColor: widget.child.activeIconColor,
-          iconColor: widget.child.iconColor,
-          isActive: widget.isActive,
+        child: Center(
+          child: BottomNavButton(
+            onTap: () {
+              widget.click();
+              widget.child.onTap!();
+            },
+            icon: widget.child.icon,
+            activeIconColor: widget.child.activeIconColor,
+            iconColor: widget.child.iconColor,
+            isActive: widget.isActive,
+          ),
         ),
       ),
     );
+  }
+}
+
+class WheelPainter extends CustomPainter {
+  int index = 0;
+  int widgetsCount = 0;
+  WheelPainter({required this.index, required this.widgetsCount});
+  Path getWheelPath(double wheelSize, double fromRadius, double toRadius) {
+    return Path()
+      ..moveTo(wheelSize, wheelSize)
+      ..arcTo(
+          Rect.fromCircle(
+              radius: wheelSize, center: Offset(wheelSize, wheelSize)),
+          fromRadius,
+          toRadius,
+          false)
+      ..close();
+  }
+
+  Paint getColoredPaint(Color color) {
+    Paint paint = Paint();
+    paint.color = color;
+    return paint;
+  }
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    double wheelSize = 84;
+    int elementCount = widgetsCount;
+    double radius = pi / elementCount;
+    canvas.drawPath(getWheelPath(wheelSize, 10, pi + 10),
+        getColoredPaint(Colors.transparent));
+    for (var i = 0; i < 5; i++) {
+      canvas.drawPath(
+          getWheelPath(wheelSize, pi + (radius * i), radius),
+          getColoredPaint(index == i
+              ? pinkColor
+              : i % 2 == 0
+                  ? blackColor
+                  : greyBgColor));
+    }
+  }
+
+  @override
+  bool shouldRepaint(CustomPainter oldDelegate) {
+    return oldDelegate != this;
   }
 }

@@ -47,7 +47,7 @@ class _MyHomePageState extends State<MyHomePage> {
         BottomNavButton(onTap: () {}, icon: LineIcons.areaChart),
       ]),
       // floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-      // floatingActionButton: 
+      // floatingActionButton:
       // EasyNavigationMenu(
       //   navItems: [
       //     NavButton(onTap: () {}, icon: LineIcons.amazonWebServicesAws),
