@@ -44,7 +44,7 @@ class _MyHomePageState extends State<MyHomePage> {
         BottomNavButton(onTap: () {}, icon: LineIcons.fire),
         BottomNavButton(onTap: () {}, icon: LineIcons.meteor),
         BottomNavButton(onTap: () {}, icon: LineIcons.futbol),
-        BottomNavButton(onTap: () {}, icon: LineIcons.areaChart),
+        BottomNavButton(onTap: () {}, icon: LineIcons.swimmer),
       ]),
       // floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       // floatingActionButton:

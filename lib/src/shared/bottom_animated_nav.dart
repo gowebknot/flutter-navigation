@@ -112,7 +112,7 @@ class _BottomAnimatedNavState extends State<BottomAnimatedNav>
                       });
                     },
                     directionInDegrees: angleInDegrees,
-                    maxDistance: 63,
+                    maxDistance: 62,
                     progress: _expandAnimation,
                     isActive: index == currentActiveButtonIndex,
                     child: widget.navItems[index],
