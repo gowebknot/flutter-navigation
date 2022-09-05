@@ -34,23 +34,32 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: Colors.grey[200],
-        appBar: AppBar(
-          backgroundColor: primaryColor,
-          title: Text(widget.title),
-        ),
-        floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-        floatingActionButton: EasyNavigationMenu(
-          navItems: [
-            NavButton(onTap: () {}, icon: LineIcons.amazonWebServicesAws),
-            NavButton(onTap: () {}, icon: LineIcons.fire),
-            NavButton(onTap: () {}, icon: LineIcons.meteor),
-            NavButton(onTap: () {}, icon: LineIcons.futbol),
-            NavButton(onTap: () {}, icon: LineIcons.areaChart),
-            NavButton(onTap: () {}, icon: LineIcons.lifeRing),
-            NavButton(onTap: () {}, icon: LineIcons.paperPlane),
-            NavButton(onTap: () {}, icon: LineIcons.moon),
-          ],
-        ));
+      backgroundColor: Colors.grey[200],
+      appBar: AppBar(
+        backgroundColor: primaryColor,
+        title: Text(widget.title),
+      ),
+      body: BottomAnimatedNav(navItems: [
+        NavButton(onTap: () {}, icon: LineIcons.amazonWebServicesAws),
+        NavButton(onTap: () {}, icon: LineIcons.fire),
+        NavButton(onTap: () {}, icon: LineIcons.meteor),
+        NavButton(onTap: () {}, icon: LineIcons.futbol),
+        NavButton(onTap: () {}, icon: LineIcons.areaChart),
+      ]),
+      // floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+      // floatingActionButton: ,
+      // EasyNavigationMenu(
+      //   navItems: [
+      //     NavButton(onTap: () {}, icon: LineIcons.amazonWebServicesAws),
+      //     NavButton(onTap: () {}, icon: LineIcons.fire),
+      //     NavButton(onTap: () {}, icon: LineIcons.meteor),
+      //     NavButton(onTap: () {}, icon: LineIcons.futbol),
+      //     NavButton(onTap: () {}, icon: LineIcons.areaChart),
+      //     NavButton(onTap: () {}, icon: LineIcons.lifeRing),
+      //     NavButton(onTap: () {}, icon: LineIcons.paperPlane),
+      //     NavButton(onTap: () {}, icon: LineIcons.moon),
+      //   ],
+      // )
+    );
   }
 }

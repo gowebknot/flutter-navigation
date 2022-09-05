@@ -34,7 +34,7 @@ class _NavButtonState extends State<NavButton>
         });
       },
       child: AnimatedContainer(
-        duration: 700.ms,
+        duration: 500.ms,
         curve: Curves.easeInSine,
         decoration: BoxDecoration(
             color: widget.isActive ? secondaryColor : whiteColor,
