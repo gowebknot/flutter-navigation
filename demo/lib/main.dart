@@ -39,15 +39,15 @@ class _MyHomePageState extends State<MyHomePage> {
         backgroundColor: primaryColor,
         title: Text(widget.title),
       ),
-      body: BottomAnimatedNav(navItems: [
-        NavButton(onTap: () {}, icon: LineIcons.amazonWebServicesAws),
-        NavButton(onTap: () {}, icon: LineIcons.fire),
-        NavButton(onTap: () {}, icon: LineIcons.meteor),
-        NavButton(onTap: () {}, icon: LineIcons.futbol),
-        NavButton(onTap: () {}, icon: LineIcons.areaChart),
+      floatingActionButton: BottomAnimatedNav(navItems: [
+        BottomNavButton(onTap: () {}, icon: LineIcons.amazonWebServicesAws),
+        BottomNavButton(onTap: () {}, icon: LineIcons.fire),
+        BottomNavButton(onTap: () {}, icon: LineIcons.meteor),
+        BottomNavButton(onTap: () {}, icon: LineIcons.futbol),
+        BottomNavButton(onTap: () {}, icon: LineIcons.areaChart),
       ]),
       // floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-      // floatingActionButton: ,
+      // floatingActionButton: 
       // EasyNavigationMenu(
       //   navItems: [
       //     NavButton(onTap: () {}, icon: LineIcons.amazonWebServicesAws),
