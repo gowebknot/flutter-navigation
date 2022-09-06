@@ -21,6 +21,8 @@ class MyApp extends StatelessWidget {
   }
 }
 
+enum AnimatedNavs { centerFloat, centerDocked, endDocked }
+
 class MyHomePage extends StatefulWidget {
   const MyHomePage({Key? key, required this.title}) : super(key: key);
 
@@ -31,35 +33,82 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+  bool toggle = false;
+  AnimatedNavs? _navs = AnimatedNavs.centerFloat;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.grey[200],
-      appBar: AppBar(
-        backgroundColor: primaryColor,
-        title: Text(widget.title),
-      ),
-      floatingActionButton: BottomAnimatedNav(navItems: [
-        BottomNavButton(onTap: () {}, icon: LineIcons.amazonWebServicesAws),
-        BottomNavButton(onTap: () {}, icon: LineIcons.fire),
-        BottomNavButton(onTap: () {}, icon: LineIcons.meteor),
-        BottomNavButton(onTap: () {}, icon: LineIcons.futbol),
-        BottomNavButton(onTap: () {}, icon: LineIcons.swimmer),
-      ]),
-      // floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-      // floatingActionButton:
-      // EasyNavigationMenu(
-      //   navItems: [
-      //     NavButton(onTap: () {}, icon: LineIcons.amazonWebServicesAws),
-      //     NavButton(onTap: () {}, icon: LineIcons.fire),
-      //     NavButton(onTap: () {}, icon: LineIcons.meteor),
-      //     NavButton(onTap: () {}, icon: LineIcons.futbol),
-      //     NavButton(onTap: () {}, icon: LineIcons.areaChart),
-      //     NavButton(onTap: () {}, icon: LineIcons.lifeRing),
-      //     NavButton(onTap: () {}, icon: LineIcons.paperPlane),
-      //     NavButton(onTap: () {}, icon: LineIcons.moon),
-      //   ],
-      // )
-    );
+        backgroundColor: Colors.grey[200],
+        appBar: AppBar(
+          backgroundColor: primaryColor,
+          title: Text(widget.title),
+        ),
+        body: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            ListTile(
+              title: const Text('Center Float'),
+              leading: Radio<AnimatedNavs>(
+                value: AnimatedNavs.centerFloat,
+                groupValue: _navs,
+                onChanged: (AnimatedNavs? value) {
+                  setState(() {
+                    _navs = value;
+                  });
+                },
+              ),
+            ),
+            ListTile(
+              title: const Text('Center Docked'),
+              leading: Radio<AnimatedNavs>(
+                value: AnimatedNavs.centerDocked,
+                groupValue: _navs,
+                onChanged: (AnimatedNavs? value) {
+                  setState(() {
+                    _navs = value;
+                  });
+                },
+              ),
+            ),
+            ListTile(
+              title: const Text('End Docked'),
+              leading: Radio<AnimatedNavs>(
+                value: AnimatedNavs.endDocked,
+                groupValue: _navs,
+                onChanged: (AnimatedNavs? value) {
+                  setState(() {
+                    _navs = value;
+                  });
+                },
+              ),
+            ),
+          ],
+        ),
+        floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+        floatingActionButton: _navs == AnimatedNavs.centerDocked
+            ? BottomAnimatedNav(navItems: [
+                BottomNavButton(
+                    onTap: () {}, icon: LineIcons.amazonWebServicesAws),
+                BottomNavButton(onTap: () {}, icon: LineIcons.fire),
+                BottomNavButton(onTap: () {}, icon: LineIcons.meteor),
+                BottomNavButton(onTap: () {}, icon: LineIcons.futbol),
+                BottomNavButton(onTap: () {}, icon: LineIcons.swimmer),
+              ])
+            : EasyNavigationMenu(
+                navItems: [
+                  NavButton(onTap: () {}, icon: LineIcons.amazonWebServicesAws),
+                  NavButton(onTap: () {}, icon: LineIcons.fire),
+                  NavButton(onTap: () {}, icon: LineIcons.meteor),
+                  NavButton(onTap: () {}, icon: LineIcons.futbol),
+                  NavButton(onTap: () {}, icon: LineIcons.areaChart),
+                  NavButton(onTap: () {}, icon: LineIcons.lifeRing),
+                  NavButton(onTap: () {}, icon: LineIcons.paperPlane),
+                  NavButton(onTap: () {}, icon: LineIcons.moon),
+                ],
+              )
+        // floatingActionButton:
+
+        );
   }
 }

@@ -23,7 +23,7 @@ class BottomAnimatedNav extends StatefulWidget {
 class _BottomAnimatedNavState extends State<BottomAnimatedNav>
     with SingleTickerProviderStateMixin {
   final double menuRadius = 168.0;
-  final double buttonRadius = 52.0;
+  final double buttonRadius = 60.0;
   Map<int, double> anglesMap = {5: 58, 4: 72, 3: 96, 2: 120, 1: 120};
 
   late AnimationController _controller;
@@ -157,7 +157,7 @@ class _BottomAnimatedNavState extends State<BottomAnimatedNav>
                           child: Icon(
                             LineIcons.plus,
                             color: greyBgColor,
-                            size: 19.0,
+                            size: 24.0,
                           ),
                         ),
                       ),
