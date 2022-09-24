@@ -1,6 +1,6 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
 
-import 'package:easy_nav/src/shared/colors.dart';
+import 'package:easy_nav/easy_nav.dart';
 import 'package:easy_nav/src/shared/icon_button.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -8,8 +8,23 @@ import 'package:line_icons/line_icons.dart';
 import 'dart:math' as math;
 
 class EasyNavigationMenu extends StatefulWidget {
-  final List<NavButton> navItems;
-  const EasyNavigationMenu({Key? key, required this.navItems})
+  final List<MenuNavItem> navItems;
+  final Color backgroundColor;
+  final Color menuBgColor;
+  final Color menuIconColor;
+  final Color navItemIconColor;
+  final Color activeNavItemIconColor;
+  final Color activeNavItemBackground;
+
+  const EasyNavigationMenu(
+      {Key? key,
+      required this.navItems,
+      this.backgroundColor = whiteColor,
+      this.menuBgColor = primaryColor,
+      this.navItemIconColor = blackColor,
+      this.activeNavItemIconColor = whiteColor,
+      this.activeNavItemBackground = secondaryColor,
+      this.menuIconColor = whiteColor})
       : super(key: key);
 
   @override
@@ -74,7 +89,7 @@ class _EasyNavigationMenuState extends State<EasyNavigationMenu>
           child: Container(
             decoration: BoxDecoration(
                 borderRadius: BorderRadius.all(Radius.circular(100.0)),
-                color: whiteColor),
+                color: widget.backgroundColor),
             height: menuRadius,
             width: menuRadius,
           ),
@@ -95,6 +110,9 @@ class _EasyNavigationMenuState extends State<EasyNavigationMenu>
             progress: _expandAnimation,
             isActive: index == currentActiveButtonIndex,
             child: widget.navItems[index],
+            activeNavItemBackground: widget.activeNavItemBackground,
+            activeNavItemIconColor: widget.activeNavItemIconColor,
+            navItemIconColor: widget.navItemIconColor,
           ),
         InkWell(
           onTap: () {
@@ -120,7 +138,7 @@ class _EasyNavigationMenuState extends State<EasyNavigationMenu>
                     )
                   ],
                   borderRadius: BorderRadius.all(Radius.circular(100.0)),
-                  color: primaryColor),
+                  color: widget.menuBgColor),
               height: buttonRadius,
               width: buttonRadius,
               child: RotationTransition(
@@ -128,7 +146,7 @@ class _EasyNavigationMenuState extends State<EasyNavigationMenu>
                 child: Center(
                     child: Icon(
                   LineIcons.plus,
-                  color: Colors.white,
+                  color: widget.menuIconColor,
                   size: 26.0,
                 )),
               )),
@@ -140,20 +158,25 @@ class _EasyNavigationMenuState extends State<EasyNavigationMenu>
 
 @immutable
 class _ExpandingActionButton extends StatefulWidget {
+  final double directionInDegrees;
+  final double maxDistance;
+  final Animation<double> progress;
+  final MenuNavItem child;
+  final bool isActive;
+  final VoidCallback click;
+  final Color navItemIconColor;
+  final Color activeNavItemIconColor;
+  final Color activeNavItemBackground;
   const _ExpandingActionButton(
       {required this.directionInDegrees,
       required this.maxDistance,
       required this.progress,
       required this.child,
       required this.isActive,
+      required this.activeNavItemBackground,
+      required this.activeNavItemIconColor,
+      required this.navItemIconColor,
       required this.click});
-
-  final double directionInDegrees;
-  final double maxDistance;
-  final Animation<double> progress;
-  final NavButton child;
-  final bool isActive;
-  final VoidCallback click;
 
   @override
   State<_ExpandingActionButton> createState() => _ExpandingActionButtonState();
@@ -183,12 +206,13 @@ class _ExpandingActionButtonState extends State<_ExpandingActionButton> {
         child: NavButton(
           onTap: () {
             widget.click();
-            widget.child.onTap!();
+            widget.child.onTap();
           },
           icon: widget.child.icon,
-          activeIconColor: widget.child.activeIconColor,
-          iconColor: widget.child.iconColor,
+          activeIconColor: widget.activeNavItemIconColor,
+          iconColor: widget.navItemIconColor,
           isActive: widget.isActive,
+          activeNavItemBgColor: widget.activeNavItemBackground,
         ),
       ),
     );

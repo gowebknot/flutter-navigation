@@ -34,7 +34,7 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   bool toggle = false;
-  AnimatedNavs? _navs = AnimatedNavs.centerFloat;
+  AnimatedNavs? _navs = AnimatedNavs.centerDocked;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -88,23 +88,23 @@ class _MyHomePageState extends State<MyHomePage> {
         floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
         floatingActionButton: _navs == AnimatedNavs.centerDocked
             ? BottomAnimatedNav(navItems: [
-                BottomNavButton(
-                    onTap: () {}, icon: LineIcons.amazonWebServicesAws),
-                BottomNavButton(onTap: () {}, icon: LineIcons.fire),
-                BottomNavButton(onTap: () {}, icon: LineIcons.meteor),
-                BottomNavButton(onTap: () {}, icon: LineIcons.futbol),
-                BottomNavButton(onTap: () {}, icon: LineIcons.swimmer),
+                MenuNavItem(onTap: () {}, icon: LineIcons.amazonWebServicesAws),
+                MenuNavItem(onTap: () {}, icon: LineIcons.fire),
+                MenuNavItem(onTap: () {}, icon: LineIcons.meteor),
+                MenuNavItem(onTap: () {}, icon: LineIcons.futbol),
+                MenuNavItem(onTap: () {}, icon: LineIcons.swimmer),
               ])
             : EasyNavigationMenu(
                 navItems: [
-                  NavButton(onTap: () {}, icon: LineIcons.amazonWebServicesAws),
-                  NavButton(onTap: () {}, icon: LineIcons.fire),
-                  NavButton(onTap: () {}, icon: LineIcons.meteor),
-                  NavButton(onTap: () {}, icon: LineIcons.futbol),
-                  NavButton(onTap: () {}, icon: LineIcons.areaChart),
-                  NavButton(onTap: () {}, icon: LineIcons.lifeRing),
-                  NavButton(onTap: () {}, icon: LineIcons.paperPlane),
-                  NavButton(onTap: () {}, icon: LineIcons.moon),
+                  MenuNavItem(
+                      onTap: () {}, icon: LineIcons.amazonWebServicesAws),
+                  MenuNavItem(onTap: () {}, icon: LineIcons.fire),
+                  MenuNavItem(onTap: () {}, icon: LineIcons.meteor),
+                  MenuNavItem(onTap: () {}, icon: LineIcons.futbol),
+                  MenuNavItem(onTap: () {}, icon: LineIcons.areaChart),
+                  MenuNavItem(onTap: () {}, icon: LineIcons.lifeRing),
+                  MenuNavItem(onTap: () {}, icon: LineIcons.paperPlane),
+                  MenuNavItem(onTap: () {}, icon: LineIcons.moon),
                 ],
               )
         // floatingActionButton:

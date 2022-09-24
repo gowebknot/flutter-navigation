@@ -1,21 +1,19 @@
-import 'package:easy_nav/easy_nav.dart';
-import 'package:easy_nav/src/shared/colors.dart';
 import 'package:easy_nav/src/utils/utils.dart';
 import 'package:flutter/material.dart';
 
 class BottomNavButton extends StatefulWidget {
   final VoidCallback? onTap;
   final IconData icon;
-  final Color? iconColor;
-  final Color? activeIconColor;
+  final Color iconColor;
+  final Color activeIconColor;
   final bool isActive;
 
   const BottomNavButton(
       {Key? key,
       required this.onTap,
       required this.icon,
-      this.iconColor = blackColor,
-      this.activeIconColor = whiteColor,
+      required this.iconColor,
+      required this.activeIconColor,
       this.isActive = false})
       : super(key: key);
 
@@ -43,7 +41,7 @@ class _BottomNavButtonState extends State<BottomNavButton>
         child: Icon(
           widget.icon,
           size: 22.0,
-          color: widget.activeIconColor,
+          color: widget.isActive ? widget.activeIconColor : widget.iconColor,
         ),
       ),
     );

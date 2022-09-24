@@ -1,21 +1,21 @@
-import 'package:easy_nav/easy_nav.dart';
-import 'package:easy_nav/src/shared/colors.dart';
 import 'package:easy_nav/src/utils/utils.dart';
 import 'package:flutter/material.dart';
 
 class NavButton extends StatefulWidget {
   final VoidCallback? onTap;
   final IconData icon;
-  final Color? iconColor;
-  final Color? activeIconColor;
+  final Color iconColor;
+  final Color activeIconColor;
   final bool isActive;
+  final Color activeNavItemBgColor;
 
   const NavButton(
       {Key? key,
       required this.onTap,
       required this.icon,
-      this.iconColor = blackColor,
-      this.activeIconColor = whiteColor,
+      required this.iconColor,
+      required this.activeIconColor,
+      required this.activeNavItemBgColor,
       this.isActive = false})
       : super(key: key);
 
@@ -37,7 +37,9 @@ class _NavButtonState extends State<NavButton>
         duration: 500.ms,
         curve: Curves.easeInSine,
         decoration: BoxDecoration(
-            color: widget.isActive ? secondaryColor : whiteColor,
+            color: widget.isActive
+                ? widget.activeNavItemBgColor
+                : Colors.transparent,
             borderRadius: const BorderRadius.all(Radius.circular(50.0))),
         padding: const EdgeInsets.all(6.0),
         child: Icon(

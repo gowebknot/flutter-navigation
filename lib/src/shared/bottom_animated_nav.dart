@@ -1,18 +1,30 @@
-// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
-
 import 'dart:math' as math;
 import 'dart:math';
-
+import 'package:easy_nav/easy_nav.dart';
+import 'package:easy_nav/src/shared/bottom_nav_icon_button.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:line_icons/line_icons.dart';
 
-import 'package:easy_nav/src/shared/colors.dart';
-import 'package:easy_nav/src/shared/bottom_nav_icon_button.dart';
-
 class BottomAnimatedNav extends StatefulWidget {
-  final List<BottomNavButton> navItems;
-  const BottomAnimatedNav({Key? key, required this.navItems})
+  final List<MenuNavItem> navItems;
+  final Color navItemIconColor;
+  final Color activeNavItemIconColor;
+  final Color backgroundColor;
+  final Color menuIconColor;
+  final Color activeNavItemBgColor;
+  final Color menuItemsFirstColor;
+  final Color menuItemsSecondColor;
+  const BottomAnimatedNav(
+      {Key? key,
+      required this.navItems,
+      this.activeNavItemIconColor = whiteColor,
+      this.backgroundColor = whiteColor,
+      this.menuIconColor = greyBgColor,
+      this.menuItemsFirstColor = blackColor,
+      this.menuItemsSecondColor = greyBgColor,
+      this.activeNavItemBgColor = pinkColor,
+      this.navItemIconColor = whiteColor})
       : assert(navItems.length >= 1 && navItems.length <= 5),
         super(key: key);
 
@@ -71,7 +83,7 @@ class _BottomAnimatedNavState extends State<BottomAnimatedNav>
         child: Align(
           alignment: Alignment.bottomCenter,
           child: Transform.translate(
-            offset: Offset(0, 100),
+            offset: const Offset(0, 100),
             child: Stack(
               alignment: Alignment.center,
               children: [
@@ -83,14 +95,17 @@ class _BottomAnimatedNavState extends State<BottomAnimatedNav>
                   )..scale(_expandAnimation.value),
                   alignment: FractionalOffset.center,
                   child: Container(
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.all(Radius.circular(100.0)),
-                        color: greyBgColor),
+                    decoration: const BoxDecoration(
+                      borderRadius: BorderRadius.all(Radius.circular(100.0)),
+                    ),
                     height: menuRadius,
                     width: menuRadius,
                     child: CustomPaint(
                       painter: WheelPainter(
                           index: currentActiveButtonIndex,
+                          activeNavItemBgColor: widget.activeNavItemBgColor,
+                          menuItemsFirstColor: widget.menuItemsFirstColor,
+                          menuItemsSecondColor: widget.menuItemsSecondColor,
                           widgetsCount: widget.navItems.length),
                     ),
                   ),
@@ -115,6 +130,8 @@ class _BottomAnimatedNavState extends State<BottomAnimatedNav>
                     maxDistance: 62,
                     progress: _expandAnimation,
                     isActive: index == currentActiveButtonIndex,
+                    activeNavItemIconColor: widget.activeNavItemIconColor,
+                    navItemIconColor: widget.navItemIconColor,
                     child: widget.navItems[index],
                   ),
                 InkWell(
@@ -129,7 +146,7 @@ class _BottomAnimatedNavState extends State<BottomAnimatedNav>
                   },
                   child: Container(
                     decoration: BoxDecoration(
-                        borderRadius: BorderRadius.only(
+                        borderRadius: const BorderRadius.only(
                           topLeft: Radius.circular(100),
                           topRight: Radius.circular(100),
                         ),
@@ -144,7 +161,7 @@ class _BottomAnimatedNavState extends State<BottomAnimatedNav>
                             spreadRadius: 1.0,
                           )
                         ],
-                        color: whiteColor),
+                        color: widget.backgroundColor),
                     height: buttonRadius,
                     width: buttonRadius,
                     child: Align(
@@ -156,7 +173,7 @@ class _BottomAnimatedNavState extends State<BottomAnimatedNav>
                               Tween(begin: 0.0, end: 0.13).animate(_controller),
                           child: Icon(
                             LineIcons.plus,
-                            color: greyBgColor,
+                            color: widget.menuIconColor,
                             size: 24.0,
                           ),
                         ),
@@ -182,15 +199,19 @@ class _ExpandingActionButton extends StatefulWidget {
       required this.child,
       required this.isActive,
       required this.index,
+      required this.activeNavItemIconColor,
+      required this.navItemIconColor,
       required this.click});
 
   final double directionInDegrees;
   final double maxDistance;
   final Animation<double> progress;
-  final BottomNavButton child;
+  final MenuNavItem child;
   final bool isActive;
   final int index;
   final VoidCallback click;
+  final Color navItemIconColor;
+  final Color activeNavItemIconColor;
 
   @override
   State<_ExpandingActionButton> createState() => _ExpandingActionButtonState();
@@ -221,11 +242,11 @@ class _ExpandingActionButtonState extends State<_ExpandingActionButton> {
           child: BottomNavButton(
             onTap: () {
               widget.click();
-              widget.child.onTap!();
+              widget.child.onTap();
             },
             icon: widget.child.icon,
-            activeIconColor: widget.child.activeIconColor,
-            iconColor: widget.child.iconColor,
+            activeIconColor: widget.activeNavItemIconColor,
+            iconColor: widget.navItemIconColor,
             isActive: widget.isActive,
           ),
         ),
@@ -237,7 +258,16 @@ class _ExpandingActionButtonState extends State<_ExpandingActionButton> {
 class WheelPainter extends CustomPainter {
   int index = 0;
   int widgetsCount = 0;
-  WheelPainter({required this.index, required this.widgetsCount});
+  final Color activeNavItemBgColor;
+  final Color menuItemsFirstColor;
+  final Color menuItemsSecondColor;
+
+  WheelPainter(
+      {required this.index,
+      required this.widgetsCount,
+      required this.menuItemsFirstColor,
+      required this.menuItemsSecondColor,
+      required this.activeNavItemBgColor});
   Path getWheelPath(double wheelSize, double fromRadius, double toRadius) {
     return Path()
       ..moveTo(wheelSize, wheelSize)
@@ -267,10 +297,10 @@ class WheelPainter extends CustomPainter {
       canvas.drawPath(
           getWheelPath(wheelSize, pi + (radius * i), radius),
           getColoredPaint(index == i
-              ? pinkColor
+              ? activeNavItemBgColor
               : i % 2 == 0
-                  ? blackColor
-                  : greyBgColor));
+                  ? menuItemsFirstColor
+                  : menuItemsSecondColor));
     }
   }
 
