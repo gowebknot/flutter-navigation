@@ -8,7 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:line_icons/line_icons.dart';
 
 import 'package:easy_nav/src/shared/colors.dart';
-import 'package:easy_nav/src/shared/icon_button_2.dart';
+import 'package:easy_nav/src/shared/bottom_nav_icon_button.dart';
 
 class BottomAnimatedNav extends StatefulWidget {
   final List<BottomNavButton> navItems;
