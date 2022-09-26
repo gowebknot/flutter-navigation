@@ -35,6 +35,15 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   bool toggle = false;
   AnimatedNavs? _navs = AnimatedNavs.centerDocked;
+  SnackBar snackBar = SnackBar(
+    action: SnackBarAction(
+      label: 'Undo',
+      onPressed: () {
+        // Some code to undo the change.
+      },
+    ),
+    content: const Text('Nav Item Clicked'),
+  );
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -94,19 +103,32 @@ class _MyHomePageState extends State<MyHomePage> {
                 MenuNavItem(onTap: () {}, icon: LineIcons.futbol),
                 MenuNavItem(onTap: () {}, icon: LineIcons.swimmer),
               ])
-            : EasyNavigationMenu(
-                navItems: [
-                  MenuNavItem(
-                      onTap: () {}, icon: LineIcons.amazonWebServicesAws),
-                  MenuNavItem(onTap: () {}, icon: LineIcons.fire),
-                  MenuNavItem(onTap: () {}, icon: LineIcons.meteor),
-                  MenuNavItem(onTap: () {}, icon: LineIcons.futbol),
-                  MenuNavItem(onTap: () {}, icon: LineIcons.areaChart),
-                  MenuNavItem(onTap: () {}, icon: LineIcons.lifeRing),
-                  MenuNavItem(onTap: () {}, icon: LineIcons.paperPlane),
-                  MenuNavItem(onTap: () {}, icon: LineIcons.moon),
-                ],
-              )
+            : _navs == AnimatedNavs.endDocked
+                ? BottomRightAnimatedNav(navItems: [
+                    MenuNavItem(
+                        onTap: () {}, icon: LineIcons.amazonWebServicesAws),
+                    MenuNavItem(onTap: () {}, icon: LineIcons.fire),
+                    MenuNavItem(onTap: () {}, icon: LineIcons.meteor),
+                    MenuNavItem(onTap: () {}, icon: LineIcons.futbol),
+                    MenuNavItem(onTap: () {}, icon: LineIcons.swimmer),
+                  ])
+                : EasyNavigationMenu(
+                    navItems: [
+                      MenuNavItem(
+                          onTap: () {
+                            ScaffoldMessenger.of(context)
+                                .showSnackBar(snackBar);
+                          },
+                          icon: LineIcons.amazonWebServicesAws),
+                      MenuNavItem(onTap: () {}, icon: LineIcons.fire),
+                      MenuNavItem(onTap: () {}, icon: LineIcons.meteor),
+                      MenuNavItem(onTap: () {}, icon: LineIcons.futbol),
+                      MenuNavItem(onTap: () {}, icon: LineIcons.areaChart),
+                      MenuNavItem(onTap: () {}, icon: LineIcons.lifeRing),
+                      MenuNavItem(onTap: () {}, icon: LineIcons.paperPlane),
+                      MenuNavItem(onTap: () {}, icon: LineIcons.moon),
+                    ],
+                  )
         // floatingActionButton:
 
         );

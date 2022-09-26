@@ -1,12 +1,11 @@
 import 'dart:math' as math;
-import 'dart:math';
 import 'package:easy_nav/easy_nav.dart';
 import 'package:easy_nav/src/shared/bottom_nav_icon_button.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:line_icons/line_icons.dart';
 
-class BottomAnimatedNav extends StatefulWidget {
+class BottomRightAnimatedNav extends StatefulWidget {
   final List<MenuNavItem> navItems;
   final Color navItemIconColor;
   final Color activeNavItemIconColor;
@@ -15,7 +14,7 @@ class BottomAnimatedNav extends StatefulWidget {
   final Color activeNavItemBgColor;
   final Color menuItemsFirstColor;
   final Color menuItemsSecondColor;
-  const BottomAnimatedNav(
+  const BottomRightAnimatedNav(
       {Key? key,
       required this.navItems,
       this.activeNavItemIconColor = whiteColor,
@@ -29,10 +28,10 @@ class BottomAnimatedNav extends StatefulWidget {
         super(key: key);
 
   @override
-  State<BottomAnimatedNav> createState() => _BottomAnimatedNavState();
+  State<BottomRightAnimatedNav> createState() => _BottomAnimatedNavState();
 }
 
-class _BottomAnimatedNavState extends State<BottomAnimatedNav>
+class _BottomAnimatedNavState extends State<BottomRightAnimatedNav>
     with SingleTickerProviderStateMixin {
   final double menuRadius = 168.0;
   final double buttonRadius = 60.0;
@@ -101,7 +100,7 @@ class _BottomAnimatedNavState extends State<BottomAnimatedNav>
                     height: menuRadius,
                     width: menuRadius,
                     child: CustomPaint(
-                      painter: _WheelPainter(
+                      painter: WheelPainter(
                           index: currentActiveButtonIndex,
                           activeNavItemBgColor: widget.activeNavItemBgColor,
                           menuItemsFirstColor: widget.menuItemsFirstColor,
@@ -255,14 +254,14 @@ class _ExpandingActionButtonState extends State<_ExpandingActionButton> {
   }
 }
 
-class _WheelPainter extends CustomPainter {
+class WheelPainter extends CustomPainter {
   int index = 0;
   int widgetsCount = 0;
   final Color activeNavItemBgColor;
   final Color menuItemsFirstColor;
   final Color menuItemsSecondColor;
 
-  _WheelPainter(
+  WheelPainter(
       {required this.index,
       required this.widgetsCount,
       required this.menuItemsFirstColor,
@@ -290,12 +289,12 @@ class _WheelPainter extends CustomPainter {
   void paint(Canvas canvas, Size size) {
     double wheelSize = 84;
     int elementCount = widgetsCount;
-    double radius = pi / elementCount;
-    canvas.drawPath(getWheelPath(wheelSize, 10, pi + 10),
+    double radius = math.pi / elementCount;
+    canvas.drawPath(getWheelPath(wheelSize, 10, math.pi + 10),
         getColoredPaint(Colors.transparent));
     for (var i = 0; i < 5; i++) {
       canvas.drawPath(
-          getWheelPath(wheelSize, pi + (radius * i), radius),
+          getWheelPath(wheelSize, math.pi + (radius * i), radius),
           getColoredPaint(index == i
               ? activeNavItemBgColor
               : i % 2 == 0
