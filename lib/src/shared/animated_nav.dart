@@ -76,82 +76,87 @@ class _EasyNavigationMenuState extends State<EasyNavigationMenu>
 
   @override
   Widget build(BuildContext context) {
-    return Stack(
-      alignment: Alignment.center,
-      children: [
-        Transform(
-          transform: Matrix4.translationValues(
-            0.0,
-            1.0,
-            0.0,
-          )..scale(_expandAnimation.value),
-          alignment: FractionalOffset.center,
-          child: Container(
-            decoration: BoxDecoration(
-                borderRadius: BorderRadius.all(Radius.circular(100.0)),
-                color: widget.backgroundColor),
-            height: menuRadius,
-            width: menuRadius,
-          ),
+    return SafeArea(
+      child: Align(
+        alignment: Alignment.bottomCenter,
+        child: Stack(
+          alignment: Alignment.center,
+          children: [
+            Transform(
+              transform: Matrix4.translationValues(
+                0.0,
+                1.0,
+                0.0,
+              )..scale(_expandAnimation.value),
+              alignment: FractionalOffset.center,
+              child: Container(
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.all(Radius.circular(100.0)),
+                    color: widget.backgroundColor),
+                height: menuRadius,
+                width: menuRadius,
+              ),
+            ),
+            for (var index = 0, angleInDegrees = 0.0;
+                index < widget.navItems.length;
+                index++,
+                angleInDegrees += (widget.navItems.length * 60.0) /
+                    (widget.navItems.length - 1))
+              _ExpandingActionButton(
+                click: () {
+                  setState(() {
+                    currentActiveButtonIndex = index;
+                  });
+                },
+                directionInDegrees: angleInDegrees,
+                maxDistance: 62,
+                progress: _expandAnimation,
+                isActive: index == currentActiveButtonIndex,
+                child: widget.navItems[index],
+                activeNavItemBackground: widget.activeNavItemBackground,
+                activeNavItemIconColor: widget.activeNavItemIconColor,
+                navItemIconColor: widget.navItemIconColor,
+              ),
+            InkWell(
+              onTap: () {
+                setState(() {
+                  _isOpen = !_isOpen;
+                  if (kDebugMode) {
+                    print(_controller.value);
+                  }
+                  _isOpen ? _controller.forward() : _controller.reverse();
+                });
+              },
+              child: Container(
+                  decoration: BoxDecoration(
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black.withOpacity(0.2),
+                          offset: const Offset(
+                            2.0,
+                            4.0,
+                          ),
+                          blurRadius: 8.0,
+                          spreadRadius: 1.0,
+                        )
+                      ],
+                      borderRadius: BorderRadius.all(Radius.circular(100.0)),
+                      color: widget.menuBgColor),
+                  height: buttonRadius,
+                  width: buttonRadius,
+                  child: RotationTransition(
+                    turns: Tween(begin: 0.0, end: 0.13).animate(_controller),
+                    child: Center(
+                        child: Icon(
+                      LineIcons.plus,
+                      color: widget.menuIconColor,
+                      size: 26.0,
+                    )),
+                  )),
+            ),
+          ],
         ),
-        for (var index = 0, angleInDegrees = 0.0;
-            index < widget.navItems.length;
-            index++,
-            angleInDegrees +=
-                (widget.navItems.length * 60.0) / (widget.navItems.length - 1))
-          _ExpandingActionButton(
-            click: () {
-              setState(() {
-                currentActiveButtonIndex = index;
-              });
-            },
-            directionInDegrees: angleInDegrees,
-            maxDistance: 62,
-            progress: _expandAnimation,
-            isActive: index == currentActiveButtonIndex,
-            child: widget.navItems[index],
-            activeNavItemBackground: widget.activeNavItemBackground,
-            activeNavItemIconColor: widget.activeNavItemIconColor,
-            navItemIconColor: widget.navItemIconColor,
-          ),
-        InkWell(
-          onTap: () {
-            setState(() {
-              _isOpen = !_isOpen;
-              if (kDebugMode) {
-                print(_controller.value);
-              }
-              _isOpen ? _controller.forward() : _controller.reverse();
-            });
-          },
-          child: Container(
-              decoration: BoxDecoration(
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.black.withOpacity(0.2),
-                      offset: const Offset(
-                        2.0,
-                        4.0,
-                      ),
-                      blurRadius: 8.0,
-                      spreadRadius: 1.0,
-                    )
-                  ],
-                  borderRadius: BorderRadius.all(Radius.circular(100.0)),
-                  color: widget.menuBgColor),
-              height: buttonRadius,
-              width: buttonRadius,
-              child: RotationTransition(
-                turns: Tween(begin: 0.0, end: 0.13).animate(_controller),
-                child: Center(
-                    child: Icon(
-                  LineIcons.plus,
-                  color: widget.menuIconColor,
-                  size: 26.0,
-                )),
-              )),
-        ),
-      ],
+      ),
     );
   }
 }

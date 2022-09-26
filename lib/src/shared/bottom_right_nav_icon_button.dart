@@ -1,14 +1,14 @@
 import 'package:easy_nav/src/utils/utils.dart';
 import 'package:flutter/material.dart';
 
-class BottomNavButton extends StatefulWidget {
+class BottomRightNavButton extends StatefulWidget {
   final VoidCallback? onTap;
   final IconData icon;
   final Color iconColor;
   final Color activeIconColor;
   final bool isActive;
 
-  const BottomNavButton(
+  const BottomRightNavButton(
       {Key? key,
       required this.onTap,
       required this.icon,
@@ -18,10 +18,10 @@ class BottomNavButton extends StatefulWidget {
       : super(key: key);
 
   @override
-  State<BottomNavButton> createState() => _BottomNavButtonState();
+  State<BottomRightNavButton> createState() => _BottomNavButtonState();
 }
 
-class _BottomNavButtonState extends State<BottomNavButton>
+class _BottomNavButtonState extends State<BottomRightNavButton>
     with SingleTickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
@@ -40,7 +40,7 @@ class _BottomNavButtonState extends State<BottomNavButton>
         padding: const EdgeInsets.all(6.0),
         child: Icon(
           widget.icon,
-          size: 22.0,
+          size: 24.0,
           color: widget.isActive ? widget.activeIconColor : widget.iconColor,
         ),
       ),

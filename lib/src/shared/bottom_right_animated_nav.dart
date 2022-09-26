@@ -1,6 +1,6 @@
 import 'dart:math' as math;
 import 'package:easy_nav/easy_nav.dart';
-import 'package:easy_nav/src/shared/bottom_nav_icon_button.dart';
+import 'package:easy_nav/src/shared/bottom_right_nav_icon_button.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:line_icons/line_icons.dart';
@@ -26,11 +26,12 @@ class BottomRightAnimatedNav extends StatefulWidget {
 }
 
 class _BottomAnimatedNavState extends State<BottomRightAnimatedNav>
-    with SingleTickerProviderStateMixin {
+    with TickerProviderStateMixin {
   final double menuRadius = 248.0;
   final double buttonRadius = 74.0;
   Map<int, double> anglesMap = {5: 58, 4: 72, 3: 96, 2: 120, 1: 120};
 
+  late AnimationController _rotationController;
   late AnimationController _controller;
   late Animation<double> _scaleAnimation;
   late final Animation<double> _expandAnimation;
@@ -41,6 +42,10 @@ class _BottomAnimatedNavState extends State<BottomRightAnimatedNav>
 
   @override
   void initState() {
+    _rotationController = AnimationController(
+      duration: const Duration(milliseconds: 500),
+      vsync: this,
+    );
     _controller = AnimationController(
       duration: const Duration(milliseconds: 500),
       vsync: this,
@@ -67,6 +72,7 @@ class _BottomAnimatedNavState extends State<BottomRightAnimatedNav>
   @override
   void dispose() {
     _controller.dispose();
+    _rotationController.dispose();
     super.dispose();
   }
 
@@ -101,30 +107,37 @@ class _BottomAnimatedNavState extends State<BottomRightAnimatedNav>
                     ),
                   ),
                 ),
-                for (var index = 0,
-                        angleInDegrees = (widget.navItems.length <= 2)
-                            ? (widget.navItems.length + 40.0)
-                            : (widget.navItems.length + 22.0);
-                    index < widget.navItems.length;
-                    index++,
-                    angleInDegrees += (widget.navItems.length *
-                            anglesMap[widget.navItems.length]!) /
-                        (widget.navItems.length - 1))
-                  _ExpandingActionButton(
-                    index: index,
-                    click: () {
-                      setState(() {
-                        currentActiveButtonIndex = index;
-                      });
-                    },
-                    directionInDegrees: angleInDegrees,
-                    maxDistance: 130,
-                    progress: _expandAnimation,
-                    isActive: index == currentActiveButtonIndex,
-                    activeNavItemIconColor: widget.activeNavItemIconColor,
-                    navItemIconColor: widget.navItemIconColor,
-                    child: widget.navItems[index],
-                  ),
+                ...[
+                  for (var index = 0,
+                          angleInDegrees = (widget.navItems.length <= 2)
+                              ? (widget.navItems.length + 40.0)
+                              : (widget.navItems.length + 22.0);
+                      index < widget.navItems.length;
+                      index++,
+                      angleInDegrees += (widget.navItems.length *
+                              anglesMap[widget.navItems.length]!) /
+                          (widget.navItems.length - 1))
+                    // RotationTransition(
+                    //   turns: Tween(begin: 0.0, end: 0.2).animate(_controller),
+                    //   child:
+                    _ExpandingActionButton(
+                      index: index,
+                      click: () {
+                        setState(() async {
+                          currentActiveButtonIndex = index;
+                          // await _rotationController.forward();
+                          // _rotationController.reset();
+                        });
+                      },
+                      directionInDegrees: angleInDegrees,
+                      maxDistance: 130,
+                      progress: _expandAnimation,
+                      isActive: index == currentActiveButtonIndex,
+                      activeNavItemIconColor: widget.activeNavItemIconColor,
+                      navItemIconColor: widget.navItemIconColor,
+                      child: widget.navItems[index],
+                    ),
+                ],
                 InkWell(
                   onLongPress: () {
                     // on long press show all the available nav items
@@ -232,7 +245,7 @@ class _ExpandingActionButtonState extends State<_ExpandingActionButton> {
       child: FadeTransition(
         opacity: widget.progress,
         child: Center(
-          child: BottomNavButton(
+          child: BottomRightNavButton(
             onTap: () {
               widget.click();
               widget.child.onTap();

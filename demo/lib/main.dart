@@ -94,7 +94,6 @@ class _MyHomePageState extends State<MyHomePage> {
             ),
           ],
         ),
-        // floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
         floatingActionButton: _navs == AnimatedNavs.centerDocked
             ? BottomAnimatedNav(navItems: [
                 MenuNavItem(onTap: () {}, icon: LineIcons.amazonWebServicesAws),
