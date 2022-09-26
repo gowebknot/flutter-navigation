@@ -34,7 +34,7 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   bool toggle = false;
-  AnimatedNavs? _navs = AnimatedNavs.centerDocked;
+  AnimatedNavs? _navs = AnimatedNavs.endDocked;
   SnackBar snackBar = SnackBar(
     action: SnackBarAction(
       label: 'Undo',
@@ -94,7 +94,7 @@ class _MyHomePageState extends State<MyHomePage> {
             ),
           ],
         ),
-        floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+        // floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
         floatingActionButton: _navs == AnimatedNavs.centerDocked
             ? BottomAnimatedNav(navItems: [
                 MenuNavItem(onTap: () {}, icon: LineIcons.amazonWebServicesAws),

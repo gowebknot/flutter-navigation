@@ -9,20 +9,14 @@ class BottomRightAnimatedNav extends StatefulWidget {
   final List<MenuNavItem> navItems;
   final Color navItemIconColor;
   final Color activeNavItemIconColor;
-  final Color backgroundColor;
+  final Color menuBackgroundColor;
   final Color menuIconColor;
-  final Color activeNavItemBgColor;
-  final Color menuItemsFirstColor;
-  final Color menuItemsSecondColor;
   const BottomRightAnimatedNav(
       {Key? key,
       required this.navItems,
       this.activeNavItemIconColor = whiteColor,
-      this.backgroundColor = whiteColor,
-      this.menuIconColor = greyBgColor,
-      this.menuItemsFirstColor = blackColor,
-      this.menuItemsSecondColor = greyBgColor,
-      this.activeNavItemBgColor = pinkColor,
+      this.menuBackgroundColor = darkBlueColor,
+      this.menuIconColor = whiteColor,
       this.navItemIconColor = whiteColor})
       : assert(navItems.length >= 1 && navItems.length <= 5),
         super(key: key);
@@ -33,8 +27,8 @@ class BottomRightAnimatedNav extends StatefulWidget {
 
 class _BottomAnimatedNavState extends State<BottomRightAnimatedNav>
     with SingleTickerProviderStateMixin {
-  final double menuRadius = 168.0;
-  final double buttonRadius = 60.0;
+  final double menuRadius = 248.0;
+  final double buttonRadius = 74.0;
   Map<int, double> anglesMap = {5: 58, 4: 72, 3: 96, 2: 120, 1: 120};
 
   late AnimationController _controller;
@@ -53,7 +47,8 @@ class _BottomAnimatedNavState extends State<BottomRightAnimatedNav>
     );
 
     _scaleCurve = CurvedAnimation(
-        parent: _controller, curve: Interval(0.0, 1.0, curve: Curves.easeIn));
+        parent: _controller,
+        curve: const Interval(0.0, 1.0, curve: Curves.easeIn));
 
     _scaleAnimation = Tween<double>(begin: 0.1, end: 1.0)
         .animate(_scaleCurve as Animation<double>)
@@ -80,9 +75,9 @@ class _BottomAnimatedNavState extends State<BottomRightAnimatedNav>
     return SafeArea(
       child: Center(
         child: Align(
-          alignment: Alignment.bottomCenter,
+          alignment: Alignment.bottomRight,
           child: Transform.translate(
-            offset: const Offset(0, 100),
+            offset: const Offset(120, 126),
             child: Stack(
               alignment: Alignment.center,
               children: [
@@ -102,9 +97,6 @@ class _BottomAnimatedNavState extends State<BottomRightAnimatedNav>
                     child: CustomPaint(
                       painter: WheelPainter(
                           index: currentActiveButtonIndex,
-                          activeNavItemBgColor: widget.activeNavItemBgColor,
-                          menuItemsFirstColor: widget.menuItemsFirstColor,
-                          menuItemsSecondColor: widget.menuItemsSecondColor,
                           widgetsCount: widget.navItems.length),
                     ),
                   ),
@@ -126,7 +118,7 @@ class _BottomAnimatedNavState extends State<BottomRightAnimatedNav>
                       });
                     },
                     directionInDegrees: angleInDegrees,
-                    maxDistance: 62,
+                    maxDistance: 130,
                     progress: _expandAnimation,
                     isActive: index == currentActiveButtonIndex,
                     activeNavItemIconColor: widget.activeNavItemIconColor,
@@ -134,6 +126,10 @@ class _BottomAnimatedNavState extends State<BottomRightAnimatedNav>
                     child: widget.navItems[index],
                   ),
                 InkWell(
+                  onLongPress: () {
+                    // on long press show all the available nav items
+                    print("show all available menu items");
+                  },
                   onTap: () {
                     setState(() {
                       _isOpen = !_isOpen;
@@ -145,10 +141,8 @@ class _BottomAnimatedNavState extends State<BottomRightAnimatedNav>
                   },
                   child: Container(
                     decoration: BoxDecoration(
-                        borderRadius: const BorderRadius.only(
-                          topLeft: Radius.circular(100),
-                          topRight: Radius.circular(100),
-                        ),
+                        borderRadius:
+                            const BorderRadius.all(Radius.circular(100.0)),
                         boxShadow: [
                           BoxShadow(
                             color: Colors.black.withOpacity(0.2),
@@ -160,20 +154,20 @@ class _BottomAnimatedNavState extends State<BottomRightAnimatedNav>
                             spreadRadius: 1.0,
                           )
                         ],
-                        color: widget.backgroundColor),
+                        color: widget.menuBackgroundColor),
                     height: buttonRadius,
                     width: buttonRadius,
                     child: Align(
-                      alignment: Alignment.topCenter,
+                      alignment: Alignment.topLeft,
                       child: Padding(
-                        padding: const EdgeInsets.only(top: 6.0),
+                        padding: const EdgeInsets.only(left: 18.0, top: 14.0),
                         child: RotationTransition(
                           turns:
                               Tween(begin: 0.0, end: 0.13).animate(_controller),
                           child: Icon(
                             LineIcons.plus,
                             color: widget.menuIconColor,
-                            size: 24.0,
+                            size: 26.0,
                           ),
                         ),
                       ),
@@ -220,15 +214,15 @@ class _ExpandingActionButtonState extends State<_ExpandingActionButton> {
   @override
   Widget build(BuildContext context) {
     final offset = Offset.fromDirection(
-      widget.directionInDegrees * (math.pi / 338.0),
+      widget.directionInDegrees * (math.pi / 394.0),
       widget.progress.value * widget.maxDistance,
     );
     return AnimatedBuilder(
       animation: widget.progress,
       builder: (context, child) {
         return Positioned(
-          right: 70.0 + offset.dx,
-          bottom: 72.0 + offset.dy,
+          right: widget.index == 2 ? 84.0 + offset.dx : 76 + offset.dx,
+          bottom: widget.index == 2 ? 80.0 + offset.dy : 84.0 + offset.dy,
           child: Transform.rotate(
             angle: (1.0 - widget.progress.value) * math.pi / 2,
             child: child!,
@@ -257,16 +251,11 @@ class _ExpandingActionButtonState extends State<_ExpandingActionButton> {
 class WheelPainter extends CustomPainter {
   int index = 0;
   int widgetsCount = 0;
-  final Color activeNavItemBgColor;
-  final Color menuItemsFirstColor;
-  final Color menuItemsSecondColor;
 
-  WheelPainter(
-      {required this.index,
-      required this.widgetsCount,
-      required this.menuItemsFirstColor,
-      required this.menuItemsSecondColor,
-      required this.activeNavItemBgColor});
+  WheelPainter({
+    required this.index,
+    required this.widgetsCount,
+  });
   Path getWheelPath(double wheelSize, double fromRadius, double toRadius) {
     return Path()
       ..moveTo(wheelSize, wheelSize)
@@ -287,19 +276,18 @@ class WheelPainter extends CustomPainter {
 
   @override
   void paint(Canvas canvas, Size size) {
-    double wheelSize = 84;
-    int elementCount = widgetsCount;
-    double radius = math.pi / elementCount;
+    double wheelSize = 150;
+    double radius = 0.54;
     canvas.drawPath(getWheelPath(wheelSize, 10, math.pi + 10),
         getColoredPaint(Colors.transparent));
-    for (var i = 0; i < 5; i++) {
+    for (var i = 0; i < 3; i++) {
       canvas.drawPath(
           getWheelPath(wheelSize, math.pi + (radius * i), radius),
-          getColoredPaint(index == i
-              ? activeNavItemBgColor
-              : i % 2 == 0
-                  ? menuItemsFirstColor
-                  : menuItemsSecondColor));
+          getColoredPaint(i == 1
+              ? blackColor2
+              : i == 2
+                  ? greyBgColor
+                  : pinkColor));
     }
   }
 

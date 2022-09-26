@@ -40,7 +40,7 @@ class _BottomNavButtonState extends State<BottomNavButton>
         padding: const EdgeInsets.all(6.0),
         child: Icon(
           widget.icon,
-          size: 22.0,
+          size: 24.0,
           color: widget.isActive ? widget.activeIconColor : widget.iconColor,
         ),
       ),
