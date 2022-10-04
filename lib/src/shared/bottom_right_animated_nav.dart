@@ -1,17 +1,17 @@
 import 'dart:math' as math;
-import 'package:easy_nav/easy_nav.dart';
-import 'package:easy_nav/src/shared/bottom_right_nav_icon_button.dart';
+import 'package:navigation_panel/navigation_panel.dart';
+import 'package:navigation_panel/src/shared/bottom_right_nav_icon_button.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:line_icons/line_icons.dart';
 
-class BottomRightAnimatedNav extends StatefulWidget {
+class EndDockedAnimatedNav extends StatefulWidget {
   final List<MenuNavItem> navItems;
   final Color navItemIconColor;
   final Color activeNavItemIconColor;
   final Color menuBackgroundColor;
   final Color menuIconColor;
-  const BottomRightAnimatedNav(
+  const EndDockedAnimatedNav(
       {Key? key,
       required this.navItems,
       this.activeNavItemIconColor = whiteColor,
@@ -22,10 +22,10 @@ class BottomRightAnimatedNav extends StatefulWidget {
         super(key: key);
 
   @override
-  State<BottomRightAnimatedNav> createState() => _BottomAnimatedNavState();
+  State<EndDockedAnimatedNav> createState() => _EndDockedAnimatedNavState();
 }
 
-class _BottomAnimatedNavState extends State<BottomRightAnimatedNav>
+class _EndDockedAnimatedNavState extends State<EndDockedAnimatedNav>
     with TickerProviderStateMixin {
   final double menuRadius = 248.0;
   final double buttonRadius = 74.0;

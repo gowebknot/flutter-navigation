@@ -1,4 +1,4 @@
-import 'package:easy_nav/src/utils/utils.dart';
+import 'package:navigation_panel/src/utils/utils.dart';
 import 'package:flutter/material.dart';
 
 class BottomRightNavButton extends StatefulWidget {

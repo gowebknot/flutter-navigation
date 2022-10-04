@@ -1,13 +1,13 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
 
-import 'package:easy_nav/easy_nav.dart';
-import 'package:easy_nav/src/shared/icon_button.dart';
+import 'package:navigation_panel/navigation_panel.dart';
+import 'package:navigation_panel/src/shared/icon_button.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:line_icons/line_icons.dart';
 import 'dart:math' as math;
 
-class EasyNavigationMenu extends StatefulWidget {
+class CenterFloatAnimatedNav extends StatefulWidget {
   final List<MenuNavItem> navItems;
   final Color backgroundColor;
   final Color menuBgColor;
@@ -16,7 +16,7 @@ class EasyNavigationMenu extends StatefulWidget {
   final Color activeNavItemIconColor;
   final Color activeNavItemBackground;
 
-  const EasyNavigationMenu(
+  const CenterFloatAnimatedNav(
       {Key? key,
       required this.navItems,
       this.backgroundColor = whiteColor,
@@ -28,10 +28,10 @@ class EasyNavigationMenu extends StatefulWidget {
       : super(key: key);
 
   @override
-  State<EasyNavigationMenu> createState() => _EasyNavigationMenuState();
+  State<CenterFloatAnimatedNav> createState() => _CenterFloatAnimatedNavState();
 }
 
-class _EasyNavigationMenuState extends State<EasyNavigationMenu>
+class _CenterFloatAnimatedNavState extends State<CenterFloatAnimatedNav>
     with SingleTickerProviderStateMixin {
   final double menuRadius = 168.0;
   final double buttonRadius = 44.0;

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:easy_nav/easy_nav.dart';
 import 'package:line_icons/line_icons.dart';
+import 'package:navigation_panel/navigation_panel.dart';
 
 void main() {
   runApp(const MyApp());
@@ -95,7 +95,7 @@ class _MyHomePageState extends State<MyHomePage> {
           ],
         ),
         floatingActionButton: _navs == AnimatedNavs.centerDocked
-            ? BottomAnimatedNav(navItems: [
+            ? CenterDockedAnimatedNav(navItems: [
                 MenuNavItem(onTap: () {}, icon: LineIcons.amazonWebServicesAws),
                 MenuNavItem(onTap: () {}, icon: LineIcons.fire),
                 MenuNavItem(onTap: () {}, icon: LineIcons.meteor),
@@ -103,7 +103,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 MenuNavItem(onTap: () {}, icon: LineIcons.swimmer),
               ])
             : _navs == AnimatedNavs.endDocked
-                ? BottomRightAnimatedNav(navItems: [
+                ? EndDockedAnimatedNav(navItems: [
                     MenuNavItem(
                         onTap: () {}, icon: LineIcons.amazonWebServicesAws),
                     MenuNavItem(onTap: () {}, icon: LineIcons.fire),
@@ -111,7 +111,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     MenuNavItem(onTap: () {}, icon: LineIcons.futbol),
                     MenuNavItem(onTap: () {}, icon: LineIcons.swimmer),
                   ])
-                : EasyNavigationMenu(
+                : CenterFloatAnimatedNav(
                     navItems: [
                       MenuNavItem(
                           onTap: () {

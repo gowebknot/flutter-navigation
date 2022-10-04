@@ -9,13 +9,13 @@ TODO: List what your package can do. Maybe include images, gifs, or videos.
 
 > This Package provides three different types of animated navs.
 
-1. Center Float Menu - ``
-2. Center Docked Menu - ``
-3. Bottom End Docked Menu - ``
+1. Center Float Menu - `CenterFloatAnimatedNav`
+2. Center Docked Menu - `CenterDockedAnimatedNav`
+3. End Docked Menu - `EndDockedAnimatedNav`
 
 # Installation
 
-Add `package_name: <latest_version>` in your `pubspec.yaml` dependencies. And import it:
+Add `navigation_panel: <latest_version>` in your `pubspec.yaml` dependencies. And import it:
 
 ```dart
 import 'package:menu_button/package_name.dart';
@@ -27,15 +27,14 @@ Example can be found in `/demo` folder.
 
 ## Simple Implementation
 
-### `1. BottomAnimatedNav`
+### `1. CenterDockedAnimatedNav`
 
 > 💡 You can have max upto 5 nav items for this menu
 
 ```dart
 Scaffold(
         backgroundColor: Colors.grey[200],
-        floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-        floatingActionButton: BottomAnimatedNav(navItems: [
+        floatingActionButton: CenterDockedAnimatedNav(navItems: [
                 MenuNavItem(onTap: () {}, icon: LineIcons.amazonWebServicesAws),
                 MenuNavItem(onTap: () {}, icon: LineIcons.fire),
                 MenuNavItem(onTap: () {}, icon: LineIcons.meteor),
@@ -55,13 +54,12 @@ Scaffold(
 | `navItemIconColor`       | Inactive Nav Items Icon Color                                                |
 | `backgroundColor`        | Docked Menu Background Color                                                 |
 
-### `2. EasyNavigationMenu`
+### `2. CenterFloatAnimatedNav`
 
 ```dart
 Scaffold(
         backgroundColor: Colors.grey[200],
-        floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-        floatingActionButton: EasyNavigationMenu(
+        floatingActionButton: CenterFloatAnimatedNav(
                     navItems: [
                       MenuNavItem(
                           onTap: () {
@@ -81,12 +79,12 @@ Scaffold(
         );
 ```
 
-### `3. BottomRightAnimatedNav`
+### `3. EndDockedAnimatedNav`
 
 ```dart
 Scaffold(
         backgroundColor: Colors.grey[200],
-        floatingActionButton: BottomRightAnimatedNav(navItems: [
+        floatingActionButton: EndDockedAnimatedNav(navItems: [
                     MenuNavItem(onTap: () {}, icon: LineIcons.amazonWebServicesAws),
                     MenuNavItem(onTap: () {}, icon: LineIcons.fire),
                     MenuNavItem(onTap: () {}, icon: LineIcons.meteor),
