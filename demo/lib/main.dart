@@ -34,6 +34,7 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   bool toggle = false;
+  final GlobalKey<EndDockedAnimatedNavState> animatedNavKey = GlobalKey();
   AnimatedNavs? _navs = AnimatedNavs.endDocked;
   SnackBar snackBar = SnackBar(
     action: SnackBarAction(
@@ -103,14 +104,20 @@ class _MyHomePageState extends State<MyHomePage> {
                 MenuNavItem(onTap: () {}, icon: LineIcons.swimmer),
               ])
             : _navs == AnimatedNavs.endDocked
-                ? EndDockedAnimatedNav(navItems: [
-                    MenuNavItem(
-                        onTap: () {}, icon: LineIcons.amazonWebServicesAws),
-                    MenuNavItem(onTap: () {}, icon: LineIcons.fire),
-                    MenuNavItem(onTap: () {}, icon: LineIcons.meteor),
-                    MenuNavItem(onTap: () {}, icon: LineIcons.futbol),
-                    MenuNavItem(onTap: () {}, icon: LineIcons.swimmer),
-                  ])
+                ? EndDockedAnimatedNav(
+                    key: animatedNavKey,
+                    menuBgColor: Colors.white,
+                    menuOpenIcon: const Icon(Icons.menu, color: primaryColor),
+                    menuCloseIcon: const Icon(Icons.close, color: primaryColor),
+                    navItems: [
+                         MenuNavItem(onTap: () {}, icon: LineIcons.fire),
+                      MenuNavItem(onTap: () {}, icon: LineIcons.meteor),
+                      MenuNavItem(onTap: () {}, icon: LineIcons.futbol),
+                      MenuNavItem(onTap: () {}, icon: LineIcons.areaChart),
+                      MenuNavItem(onTap: () {}, icon: LineIcons.lifeRing),
+                      MenuNavItem(onTap: () {}, icon: LineIcons.paperPlane),
+                      MenuNavItem(onTap: () {}, icon: LineIcons.moon),
+                      ])
                 : CenterFloatAnimatedNav(
                     navItems: [
                       MenuNavItem(

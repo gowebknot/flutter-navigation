@@ -18,7 +18,7 @@ TODO: List what your package can do. Maybe include images, gifs, or videos.
 Add `navigation_panel: <latest_version>` in your `pubspec.yaml` dependencies. And import it:
 
 ```dart
-import 'package:menu_button/package_name.dart';
+import 'package:menu_button/navigation_panel.dart';
 ```
 
 # Usage

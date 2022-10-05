@@ -1,274 +1,315 @@
-import 'dart:math' as math;
-import 'package:navigation_panel/navigation_panel.dart';
-import 'package:navigation_panel/src/shared/bottom_right_nav_icon_button.dart';
+// ignore_for_file: depend_on_referenced_packages
+import 'dart:math';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:line_icons/line_icons.dart';
+import 'package:navigation_panel/src/shared/colors.dart';
+import 'package:navigation_panel/src/shared/menu_nav_item.dart';
+import 'package:vector_math/vector_math.dart' as vector;
 
 class EndDockedAnimatedNav extends StatefulWidget {
   final List<MenuNavItem> navItems;
-  final Color navItemIconColor;
-  final Color activeNavItemIconColor;
-  final Color menuBackgroundColor;
-  final Color menuIconColor;
+  final Color? menuBgColor;
+  final Widget menuOpenIcon;
+  final Widget menuCloseIcon;
+  final Color activeNavItemBgColor;
+  final Color menuNavItemsIconColor;
+
   const EndDockedAnimatedNav(
       {Key? key,
-      required this.navItems,
-      this.activeNavItemIconColor = whiteColor,
-      this.menuBackgroundColor = darkBlueColor,
-      this.menuIconColor = whiteColor,
-      this.navItemIconColor = whiteColor})
-      : assert(navItems.length >= 1 && navItems.length <= 5),
+      this.menuBgColor,
+      this.menuOpenIcon = const Icon(Icons.menu),
+      this.activeNavItemBgColor = pinkColor,
+      this.menuCloseIcon = const Icon(Icons.close),
+      this.menuNavItemsIconColor = whiteColor,
+      required this.navItems})
+      : assert(navItems.length >= 1),
         super(key: key);
 
   @override
-  State<EndDockedAnimatedNav> createState() => _EndDockedAnimatedNavState();
+  EndDockedAnimatedNavState createState() => EndDockedAnimatedNavState();
 }
 
-class _EndDockedAnimatedNavState extends State<EndDockedAnimatedNav>
+class EndDockedAnimatedNavState extends State<EndDockedAnimatedNav>
     with TickerProviderStateMixin {
-  final double menuRadius = 248.0;
-  final double buttonRadius = 74.0;
-  Map<int, double> anglesMap = {5: 58, 4: 72, 3: 96, 2: 120, 1: 120};
+  late double _screenWidth;
+  late double _screenHeight;
+  late double _marginH;
+  late double _marginV;
+  late double _directionX;
+  late double _directionY;
+  late double _translationX;
+  late double _translationY;
 
-  late AnimationController _rotationController;
-  late AnimationController _controller;
+  double? _ringDiameter;
+  double? _ringWidth;
+  Color? _menuOpenColor;
+  double fabSize = 68.0;
+  double ringWidth = 100.0;
+  Curve animationCurve = Curves.easeInOutCirc;
+  EdgeInsets fabMargin = const EdgeInsets.all(16.0);
+  Alignment menuAlignment = Alignment.bottomRight;
+  final ShapeBorder _fabIconBorder = const CircleBorder();
+
+  late AnimationController _animationController;
+  late AnimationController _animationController2;
   late Animation<double> _scaleAnimation;
-  late final Animation<double> _expandAnimation;
   late Animation _scaleCurve;
-
+  late Animation<double> _rotateAnimation;
+  late Animation _rotateCurve;
+  Animation<Color?>? _colorAnimation;
+  late Animation _colorCurve;
   bool _isOpen = false;
-  int currentActiveButtonIndex = 0;
+  bool _isAnimating = false;
+  List<MenuNavItem> localChild = [];
 
   @override
   void initState() {
-    _rotationController = AnimationController(
-      duration: const Duration(milliseconds: 500),
-      vsync: this,
-    );
-    _controller = AnimationController(
-      duration: const Duration(milliseconds: 500),
-      vsync: this,
-    );
+    localChild = widget.navItems;
+    super.initState();
+
+    _animationController = AnimationController(
+        duration: const Duration(milliseconds: 600), vsync: this);
+    _animationController2 = AnimationController(
+        duration: const Duration(milliseconds: 600), vsync: this);
 
     _scaleCurve = CurvedAnimation(
-        parent: _controller,
-        curve: const Interval(0.0, 1.0, curve: Curves.easeIn));
-
-    _scaleAnimation = Tween<double>(begin: 0.1, end: 1.0)
+        parent: _animationController,
+        curve: Interval(0.0, 0.4, curve: animationCurve));
+    _scaleAnimation = Tween<double>(begin: 0.0, end: 1.0)
         .animate(_scaleCurve as Animation<double>)
       ..addListener(() {
         setState(() {});
       });
 
-    _expandAnimation = CurvedAnimation(
-      curve: Curves.fastOutSlowIn,
-      reverseCurve: Curves.fastLinearToSlowEaseIn,
-      parent: _controller,
-    );
-    super.initState();
+    _rotateCurve = CurvedAnimation(
+        parent: _animationController2,
+        curve: Interval(0.0, 1.0, curve: animationCurve));
+    _rotateAnimation = Tween<double>(begin: 0.0, end: 1.0)
+        .animate(_rotateCurve as Animation<double>)
+      ..addListener(() {
+        setState(() {});
+      });
   }
 
   @override
   void dispose() {
-    _controller.dispose();
-    _rotationController.dispose();
+    _animationController.dispose();
+    _animationController2.dispose();
     super.dispose();
   }
 
   @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    _calculateProps();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Center(
-        child: Align(
-          alignment: Alignment.bottomRight,
-          child: Transform.translate(
-            offset: const Offset(120, 126),
-            child: Stack(
-              alignment: Alignment.center,
-              children: [
-                Transform(
-                  transform: Matrix4.translationValues(
-                    0.0,
-                    1.0,
-                    0.0,
-                  )..scale(_expandAnimation.value),
-                  alignment: FractionalOffset.center,
-                  child: Container(
-                    decoration: const BoxDecoration(
-                      borderRadius: BorderRadius.all(Radius.circular(100.0)),
-                    ),
-                    height: menuRadius,
-                    width: menuRadius,
+    if (!kReleaseMode) {
+      _calculateProps();
+    }
+
+    return Transform.translate(
+        offset: const Offset(20, 36),
+        child: Container(
+          transform: Matrix4.translationValues(16.0, 16.0, 0.0),
+          child: Stack(
+            alignment: menuAlignment,
+            children: <Widget>[
+              // Ring
+              Transform(
+                transform: Matrix4.translationValues(
+                  _translationX,
+                  _translationY,
+                  0.0,
+                )..scale(_scaleAnimation.value),
+                alignment: FractionalOffset.center,
+                child: OverflowBox(
+                  maxWidth: _ringDiameter,
+                  maxHeight: _ringDiameter,
+                  child: SizedBox(
+                    width: _ringDiameter,
+                    height: _ringDiameter,
                     child: CustomPaint(
-                      painter: WheelPainter(
-                          index: currentActiveButtonIndex,
-                          widgetsCount: widget.navItems.length),
-                    ),
-                  ),
-                ),
-                ...[
-                  for (var index = 0,
-                          angleInDegrees = (widget.navItems.length <= 2)
-                              ? (widget.navItems.length + 40.0)
-                              : (widget.navItems.length + 22.0);
-                      index < widget.navItems.length;
-                      index++,
-                      angleInDegrees += (widget.navItems.length *
-                              anglesMap[widget.navItems.length]!) /
-                          (widget.navItems.length - 1))
-                    // RotationTransition(
-                    //   turns: Tween(begin: 0.0, end: 0.2).animate(_controller),
-                    //   child:
-                    _ExpandingActionButton(
-                      index: index,
-                      click: () {
-                        setState(() async {
-                          currentActiveButtonIndex = index;
-                          // await _rotationController.forward();
-                          // _rotationController.reset();
-                        });
-                      },
-                      directionInDegrees: angleInDegrees,
-                      maxDistance: 130,
-                      progress: _expandAnimation,
-                      isActive: index == currentActiveButtonIndex,
-                      activeNavItemIconColor: widget.activeNavItemIconColor,
-                      navItemIconColor: widget.navItemIconColor,
-                      child: widget.navItems[index],
-                    ),
-                ],
-                InkWell(
-                  onLongPress: () {
-                    // on long press show all the available nav items
-                    print("show all available menu items");
-                  },
-                  onTap: () {
-                    setState(() {
-                      _isOpen = !_isOpen;
-                      if (kDebugMode) {
-                        print(_controller.value);
-                      }
-                      _isOpen ? _controller.forward() : _controller.reverse();
-                    });
-                  },
-                  child: Container(
-                    decoration: BoxDecoration(
-                        borderRadius:
-                            const BorderRadius.all(Radius.circular(100.0)),
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.black.withOpacity(0.2),
-                            offset: const Offset(
-                              2.0,
-                              4.0,
-                            ),
-                            blurRadius: 8.0,
-                            spreadRadius: 1.0,
-                          )
-                        ],
-                        color: widget.menuBackgroundColor),
-                    height: buttonRadius,
-                    width: buttonRadius,
-                    child: Align(
-                      alignment: Alignment.topLeft,
-                      child: Padding(
-                        padding: const EdgeInsets.only(left: 18.0, top: 14.0),
-                        child: RotationTransition(
-                          turns:
-                              Tween(begin: 0.0, end: 0.13).animate(_controller),
-                          child: Icon(
-                            LineIcons.plus,
-                            color: widget.menuIconColor,
-                            size: 26.0,
-                          ),
+                        painter: WheelPainter(
+                          activeBgColor: widget.activeNavItemBgColor,
+                          width: _ringWidth,
                         ),
-                      ),
-                    ),
+                        child:
+                            // _scaleAnimation.value == 1.0 ?
+                            Transform.rotate(
+                          angle: (2 * pi) *
+                              _rotateAnimation.value *
+                              _directionX *
+                              _directionY,
+                          child: SizedBox(
+                            child: Stack(
+                              alignment: Alignment.center,
+                              children: localChild
+                                  .asMap()
+                                  .map((index, child) => MapEntry(index,
+                                      _applyTransformations(child, index)))
+                                  .values
+                                  .toList(),
+                            ),
+                          ),
+                        )
+                        // : Container(),
+                        ),
                   ),
                 ),
-              ],
-            ),
+              ),
+
+              SizedBox(
+                width: fabSize,
+                height: fabSize,
+                child: RawMaterialButton(
+                  fillColor: _colorAnimation!.value,
+                  shape: _fabIconBorder,
+                  elevation: 8.0,
+                  onPressed: () {
+                    if (_isAnimating) return;
+
+                    if (_isOpen) {
+                      close();
+                    } else {
+                      open();
+                    }
+                  },
+                  child: Align(
+                    alignment: Alignment.topLeft,
+                    child: (_scaleAnimation.value == 1.0
+                        ? Padding(
+                            padding:
+                                const EdgeInsets.only(left: 16.0, top: 8.0),
+                            child: widget.menuCloseIcon,
+                          )
+                        : Padding(
+                            padding:
+                                const EdgeInsets.only(left: 16.0, top: 8.0),
+                            child: widget.menuOpenIcon,
+                          )),
+                  ),
+                ),
+              ),
+            ],
           ),
-        ),
-      ),
+        ));
+  }
+
+  Widget _applyTransformations(MenuNavItem child, int index) {
+    double angleFix = 8.0;
+
+    final angle =
+        vector.radians(230.0 / (localChild.length - 1) * index + angleFix);
+
+    return Transform(
+      transform: Matrix4.translationValues(
+          (-(_ringDiameter! / 1.7) * cos(angle) +
+                  (_ringWidth! / 1.7 * cos(angle))) *
+              _directionX,
+          (-(_ringDiameter! / 1.7) * sin(angle) +
+                  (_ringWidth! / 1.7 * sin(angle))) *
+              _directionY,
+          0.0),
+      alignment: FractionalOffset.centerLeft,
+      child: InkWell(
+          onTap: () async {
+            child.onTap();
+            _scaleAnimation = Tween<double>(begin: 0.2, end: 1.0)
+                .animate(_scaleCurve as Animation<double>)
+              ..addListener(() {
+                setState(() {});
+              });
+            await _animationController2.reverse(from: 0.2);
+            reArrangeItems(index: index);
+            _scaleAnimation = Tween<double>(begin: 0.0, end: 1.0)
+                .animate(_scaleCurve as Animation<double>)
+              ..addListener(() {
+                setState(() {});
+              });
+          },
+          child: Icon(
+            child.icon,
+            color: widget.menuNavItemsIconColor,
+            size: 24.0,
+          )),
     );
   }
-}
 
-@immutable
-class _ExpandingActionButton extends StatefulWidget {
-  const _ExpandingActionButton(
-      {required this.directionInDegrees,
-      required this.maxDistance,
-      required this.progress,
-      required this.child,
-      required this.isActive,
-      required this.index,
-      required this.activeNavItemIconColor,
-      required this.navItemIconColor,
-      required this.click});
+  void _calculateProps() {
+    _menuOpenColor = widget.menuBgColor ?? Theme.of(context).primaryColor;
+    _screenWidth = MediaQuery.of(context).size.width;
+    _screenHeight = MediaQuery.of(context).size.height;
+    _ringDiameter = 300.0;
+    _ringWidth = ringWidth;
+    _marginH = (fabMargin.right + fabMargin.left) / 2;
+    _marginV = (fabMargin.top + fabMargin.bottom) / 2;
+    _directionX = menuAlignment.x == 0 ? 1 : 1 * menuAlignment.x.sign;
+    _directionY = menuAlignment.y == 0 ? 1 : 1 * menuAlignment.y.sign;
+    _translationX = ((_screenWidth - fabSize) / 2 - _marginH) * menuAlignment.x;
+    _translationY =
+        ((_screenHeight - fabSize) / 2 - _marginV) * menuAlignment.y;
 
-  final double directionInDegrees;
-  final double maxDistance;
-  final Animation<double> progress;
-  final MenuNavItem child;
-  final bool isActive;
-  final int index;
-  final VoidCallback click;
-  final Color navItemIconColor;
-  final Color activeNavItemIconColor;
-
-  @override
-  State<_ExpandingActionButton> createState() => _ExpandingActionButtonState();
-}
-
-class _ExpandingActionButtonState extends State<_ExpandingActionButton> {
-  @override
-  Widget build(BuildContext context) {
-    final offset = Offset.fromDirection(
-      widget.directionInDegrees * (math.pi / 394.0),
-      widget.progress.value * widget.maxDistance,
-    );
-    return AnimatedBuilder(
-      animation: widget.progress,
-      builder: (context, child) {
-        return Positioned(
-          right: widget.index == 2 ? 84.0 + offset.dx : 76 + offset.dx,
-          bottom: widget.index == 2 ? 80.0 + offset.dy : 84.0 + offset.dy,
-          child: Transform.rotate(
-            angle: (1.0 - widget.progress.value) * math.pi / 2,
-            child: child!,
-          ),
-        );
-      },
-      child: FadeTransition(
-        opacity: widget.progress,
-        child: Center(
-          child: BottomRightNavButton(
-            onTap: () {
-              widget.click();
-              widget.child.onTap();
-            },
-            icon: widget.child.icon,
-            activeIconColor: widget.activeNavItemIconColor,
-            iconColor: widget.navItemIconColor,
-            isActive: widget.isActive,
-          ),
-        ),
-      ),
-    );
+    if (_colorAnimation == null || !kReleaseMode) {
+      _colorCurve = CurvedAnimation(
+          parent: _animationController,
+          curve: Interval(
+            0.0,
+            0.4,
+            curve: animationCurve,
+          ));
+      _colorAnimation = ColorTween(begin: _menuOpenColor, end: _menuOpenColor)
+          .animate(_colorCurve as Animation<double>)
+        ..addListener(() {
+          setState(() {});
+        });
+    }
   }
+
+  void open() {
+    _isAnimating = true;
+    _animationController.forward().then((_) {
+      _isAnimating = false;
+      _isOpen = true;
+    });
+  }
+
+  void close() {
+    _isAnimating = true;
+    _animationController.reverse().then((_) {
+      _isAnimating = false;
+      _isOpen = false;
+    });
+  }
+
+  void reArrangeItems({required int index}) {
+    List<MenuNavItem> tempList = [];
+    tempList.add(localChild.elementAt(index));
+    for (var i = index + 1; i < localChild.length; i++) {
+      if (i != index) {
+        tempList.add(localChild.elementAt(i));
+      }
+    }
+    for (var i = 0; i <= index; i++) {
+      if (i != index) {
+        tempList.add(localChild.elementAt(i));
+      }
+    }
+    setState(() {
+      localChild = tempList;
+    });
+  }
+
+  bool get isOpen => _isOpen;
 }
 
 class WheelPainter extends CustomPainter {
-  int index = 0;
-  int widgetsCount = 0;
+  final double? width;
+  final Color activeBgColor;
 
-  WheelPainter({
-    required this.index,
-    required this.widgetsCount,
-  });
+  WheelPainter({required this.width, required this.activeBgColor});
   Path getWheelPath(double wheelSize, double fromRadius, double toRadius) {
     return Path()
       ..moveTo(wheelSize, wheelSize)
@@ -289,18 +330,17 @@ class WheelPainter extends CustomPainter {
 
   @override
   void paint(Canvas canvas, Size size) {
-    double wheelSize = 150;
-    double radius = 0.54;
-    canvas.drawPath(getWheelPath(wheelSize, 10, math.pi + 10),
-        getColoredPaint(Colors.transparent));
+    double wheelSize = 174;
+    double radius = 0.58;
+
     for (var i = 0; i < 3; i++) {
       canvas.drawPath(
-          getWheelPath(wheelSize, math.pi + (radius * i), radius),
+          getWheelPath(wheelSize, pi + (radius * i), radius),
           getColoredPaint(i == 1
               ? blackColor2
               : i == 2
                   ? greyBgColor
-                  : pinkColor));
+                  : activeBgColor));
     }
   }
 
