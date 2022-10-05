@@ -107,7 +107,6 @@ class _MyHomePageState extends State<MyHomePage> {
                 ? EndDockedAnimatedNav(
                     key: animatedNavKey,
                     menuBgColor: Colors.white,
-                    
                     menuOpenIcon: const Icon(Icons.menu, color: primaryColor),
                     menuCloseIcon: const Icon(Icons.close, color: primaryColor),
                     navItems: [
