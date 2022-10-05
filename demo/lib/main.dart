@@ -110,13 +110,13 @@ class _MyHomePageState extends State<MyHomePage> {
                     menuOpenIcon: const Icon(Icons.menu, color: primaryColor),
                     menuCloseIcon: const Icon(Icons.close, color: primaryColor),
                     navItems: [
-                         MenuNavItem(onTap: () {}, icon: LineIcons.fire),
-                      MenuNavItem(onTap: () {}, icon: LineIcons.meteor),
-                      MenuNavItem(onTap: () {}, icon: LineIcons.futbol),
-                      MenuNavItem(onTap: () {}, icon: LineIcons.areaChart),
-                      MenuNavItem(onTap: () {}, icon: LineIcons.lifeRing),
-                      MenuNavItem(onTap: () {}, icon: LineIcons.paperPlane),
-                      MenuNavItem(onTap: () {}, icon: LineIcons.moon),
+                        MenuNavItem(onTap: () {}, icon: LineIcons.fire),
+                        MenuNavItem(onTap: () {}, icon: LineIcons.meteor),
+                        MenuNavItem(onTap: () {}, icon: LineIcons.futbol),
+                        MenuNavItem(onTap: () {}, icon: LineIcons.areaChart),
+                        MenuNavItem(onTap: () {}, icon: LineIcons.lifeRing),
+                        MenuNavItem(onTap: () {}, icon: LineIcons.paperPlane),
+                        MenuNavItem(onTap: () {}, icon: LineIcons.moon),
                       ])
                 : CenterFloatAnimatedNav(
                     navItems: [
