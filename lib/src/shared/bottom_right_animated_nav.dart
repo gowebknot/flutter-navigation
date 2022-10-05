@@ -12,15 +12,19 @@ class EndDockedAnimatedNav extends StatefulWidget {
   final Widget menuOpenIcon;
   final Widget menuCloseIcon;
   final Color activeNavItemBgColor;
-  final Color menuNavItemsIconColor;
+  final Color navItemPrimaryBgColor;
+  final Color navItemSecondaryBgColor;
+  final Color navItemsIconColor;
 
   const EndDockedAnimatedNav(
       {Key? key,
       this.menuBgColor,
       this.menuOpenIcon = const Icon(Icons.menu),
       this.activeNavItemBgColor = pinkColor,
+      this.navItemPrimaryBgColor = blackColor2,
+      this.navItemSecondaryBgColor = greyBgColor,
       this.menuCloseIcon = const Icon(Icons.close),
-      this.menuNavItemsIconColor = whiteColor,
+      this.navItemsIconColor = whiteColor,
       required this.navItems})
       : assert(navItems.length >= 1),
         super(key: key);
@@ -134,6 +138,9 @@ class EndDockedAnimatedNavState extends State<EndDockedAnimatedNav>
                     child: CustomPaint(
                         painter: WheelPainter(
                           activeBgColor: widget.activeNavItemBgColor,
+                          navItemPrimaryBgColor: widget.navItemPrimaryBgColor,
+                          navItemSecondaryBgColor:
+                              widget.navItemSecondaryBgColor,
                           width: _ringWidth,
                         ),
                         child:
@@ -232,7 +239,7 @@ class EndDockedAnimatedNavState extends State<EndDockedAnimatedNav>
           },
           child: Icon(
             child.icon,
-            color: widget.menuNavItemsIconColor,
+            color: widget.navItemsIconColor,
             size: 24.0,
           )),
     );
@@ -308,8 +315,14 @@ class EndDockedAnimatedNavState extends State<EndDockedAnimatedNav>
 class WheelPainter extends CustomPainter {
   final double? width;
   final Color activeBgColor;
+  final Color navItemPrimaryBgColor;
+  final Color navItemSecondaryBgColor;
 
-  WheelPainter({required this.width, required this.activeBgColor});
+  WheelPainter(
+      {required this.width,
+      required this.activeBgColor,
+      required this.navItemPrimaryBgColor,
+      required this.navItemSecondaryBgColor});
   Path getWheelPath(double wheelSize, double fromRadius, double toRadius) {
     return Path()
       ..moveTo(wheelSize, wheelSize)
@@ -337,9 +350,9 @@ class WheelPainter extends CustomPainter {
       canvas.drawPath(
           getWheelPath(wheelSize, pi + (radius * i), radius),
           getColoredPaint(i == 1
-              ? blackColor2
+              ? navItemPrimaryBgColor
               : i == 2
-                  ? greyBgColor
+                  ? navItemSecondaryBgColor
                   : activeBgColor));
     }
   }
