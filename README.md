@@ -5,13 +5,16 @@ know whether this package might be useful for them.
 
 # Features
 
-TODO: List what your package can do. Maybe include images, gifs, or videos.
-
 > This Package provides three different types of animated navs.
 
 1. Center Float Menu - `CenterFloatAnimatedNav`
 2. Center Docked Menu - `CenterDockedAnimatedNav`
 3. End Docked Menu - `EndDockedAnimatedNav`
+
+
+   ![centerFloat menu](https://raw.githubusercontent.com/gowebknot/flutter-navigation/sai/demo/screenshots/centerFloat.png?token=GHSAT0AAAAAABVOHJ6DUNG5YIM3UFHAXEASYZ5RMCA)
+   ![centerDocked menu](https://raw.githubusercontent.com/gowebknot/flutter-navigation/sai/demo/screenshots/centerDocked.png?token=GHSAT0AAAAAABVOHJ6DGERNC44IBXQTDSPOYZ5RPGA)
+   ![endDocked menu](https://raw.githubusercontent.com/gowebknot/flutter-navigation/sai/demo/screenshots/endDocked.png?token=GHSAT0AAAAAABVOHJ6C75A65FVPJZUKIO2YYZ5RMIQ)
 
 # Installation
 
