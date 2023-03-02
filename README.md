@@ -1,7 +1,10 @@
 ![License](https://img.shields.io/badge/license-MIT-blue.svg?style=for-the-badge&color=blue)
 
-TODO: Put a short description of the package here that helps potential users
-know whether this package might be useful for them.
+Here's to reinventing the wheel. 
+
+We got bored of the traditional bottom navigation bar and the hamburger menu. We've designed a few unique options to replace them.
+
+Implement them on your next project. We know we will.
 
 # Features
 
