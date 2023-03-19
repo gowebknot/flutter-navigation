@@ -13,10 +13,11 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Flutter Nav',
+      debugShowCheckedModeBanner: false,
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: const MyHomePage(title: 'Flutter Demo'),
+      home: const MyHomePage(title: 'Flutter Navigation'),
     );
   }
 }
@@ -35,7 +36,7 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   bool toggle = false;
   final GlobalKey<EndDockedAnimatedNavState> animatedNavKey = GlobalKey();
-  AnimatedNavs? _navs = AnimatedNavs.endDocked;
+  AnimatedNavs? _navs = AnimatedNavs.centerDocked;
   SnackBar snackBar = SnackBar(
     action: SnackBarAction(
       label: 'Undo',
@@ -96,7 +97,8 @@ class _MyHomePageState extends State<MyHomePage> {
           ],
         ),
         floatingActionButton: _navs == AnimatedNavs.centerDocked
-            ? CenterDockedAnimatedNav(navItems: [
+            ? CenterDockedAnimatedNav(
+              navItems: [
                 MenuNavItem(onTap: () {}, icon: LineIcons.amazonWebServicesAws),
                 MenuNavItem(onTap: () {}, icon: LineIcons.fire),
                 MenuNavItem(onTap: () {}, icon: LineIcons.meteor),

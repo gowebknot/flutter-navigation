@@ -37,9 +37,7 @@ class _CenterFloatAnimatedNavState extends State<CenterFloatAnimatedNav>
   final double buttonRadius = 44.0;
 
   late AnimationController _controller;
-  late Animation<double> _scaleAnimation;
   late final Animation<double> _expandAnimation;
-  late Animation _scaleCurve;
 
   bool _isOpen = false;
   int currentActiveButtonIndex = 0;
@@ -50,15 +48,6 @@ class _CenterFloatAnimatedNavState extends State<CenterFloatAnimatedNav>
       duration: const Duration(milliseconds: 500),
       vsync: this,
     );
-
-    _scaleCurve = CurvedAnimation(
-        parent: _controller, curve: Interval(0.0, 1.0, curve: Curves.easeIn));
-
-    _scaleAnimation = Tween<double>(begin: 0.1, end: 1.0)
-        .animate(_scaleCurve as Animation<double>)
-      ..addListener(() {
-        setState(() {});
-      });
 
     _expandAnimation = CurvedAnimation(
       curve: Curves.fastOutSlowIn,
@@ -82,12 +71,8 @@ class _CenterFloatAnimatedNavState extends State<CenterFloatAnimatedNav>
         child: Stack(
           alignment: Alignment.center,
           children: [
-            Transform(
-              transform: Matrix4.translationValues(
-                0.0,
-                1.0,
-                0.0,
-              )..scale(_expandAnimation.value),
+            ScaleTransition(
+              scale: _expandAnimation,
               alignment: FractionalOffset.center,
               child: Container(
                 decoration: BoxDecoration(

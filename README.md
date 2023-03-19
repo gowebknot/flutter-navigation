@@ -29,7 +29,7 @@ import 'package:menu_button/navigation_panel.dart';
 
 # Usage
 
-Example can be found in `/demo` folder.
+Example can be found in `/example` folder.
 
 ## Simple Implementation
 

@@ -1,5 +1,4 @@
 import 'dart:math' as math;
-import 'dart:math';
 import 'package:navigation_panel/navigation_panel.dart';
 import 'package:navigation_panel/src/shared/bottom_nav_icon_button.dart';
 import 'package:flutter/foundation.dart';
@@ -40,9 +39,7 @@ class _CenterDockedAnimatedNavState extends State<CenterDockedAnimatedNav>
   Map<int, double> anglesMap = {5: 58, 4: 72, 3: 96, 2: 120, 1: 120};
 
   late AnimationController _controller;
-  late Animation<double> _scaleAnimation;
   late final Animation<double> _expandAnimation;
-  late Animation _scaleCurve;
 
   bool _isOpen = false;
   int currentActiveButtonIndex = 0;
@@ -53,15 +50,6 @@ class _CenterDockedAnimatedNavState extends State<CenterDockedAnimatedNav>
       duration: const Duration(milliseconds: 500),
       vsync: this,
     );
-
-    _scaleCurve = CurvedAnimation(
-        parent: _controller, curve: Interval(0.0, 1.0, curve: Curves.easeIn));
-
-    _scaleAnimation = Tween<double>(begin: 0.1, end: 1.0)
-        .animate(_scaleCurve as Animation<double>)
-      ..addListener(() {
-        setState(() {});
-      });
 
     _expandAnimation = CurvedAnimation(
       curve: Curves.fastOutSlowIn,
@@ -88,12 +76,8 @@ class _CenterDockedAnimatedNavState extends State<CenterDockedAnimatedNav>
             child: Stack(
               alignment: Alignment.center,
               children: [
-                Transform(
-                  transform: Matrix4.translationValues(
-                    0.0,
-                    1.0,
-                    0.0,
-                  )..scale(_expandAnimation.value),
+                ScaleTransition(
+                  scale: _expandAnimation,
                   alignment: FractionalOffset.center,
                   child: Container(
                     decoration: const BoxDecoration(
@@ -221,13 +205,13 @@ class _ExpandingActionButton extends StatefulWidget {
 class _ExpandingActionButtonState extends State<_ExpandingActionButton> {
   @override
   Widget build(BuildContext context) {
-    final offset = Offset.fromDirection(
-      widget.directionInDegrees * (math.pi / 338.0),
-      widget.progress.value * widget.maxDistance,
-    );
     return AnimatedBuilder(
       animation: widget.progress,
       builder: (context, child) {
+        final offset = Offset.fromDirection(
+          widget.directionInDegrees * (math.pi / 338.0),
+          widget.progress.value * widget.maxDistance,
+        );
         return Positioned(
           right: 70.0 + offset.dx,
           bottom: 72.0 + offset.dy,
@@ -291,12 +275,12 @@ class _WheelPainter extends CustomPainter {
   void paint(Canvas canvas, Size size) {
     double wheelSize = 84;
     int elementCount = widgetsCount;
-    double radius = pi / elementCount;
-    canvas.drawPath(getWheelPath(wheelSize, 10, pi + 10),
+    double radius = math.pi / elementCount;
+    canvas.drawPath(getWheelPath(wheelSize, 10, math.pi + 10),
         getColoredPaint(Colors.transparent));
     for (var i = 0; i < 5; i++) {
       canvas.drawPath(
-          getWheelPath(wheelSize, pi + (radius * i), radius),
+          getWheelPath(wheelSize, math.pi + (radius * i), radius),
           getColoredPaint(index == i
               ? activeNavItemBgColor
               : i % 2 == 0

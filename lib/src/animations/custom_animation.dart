@@ -11,7 +11,7 @@ class CustomAnimation extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  _CustomAnimationState createState() => _CustomAnimationState();
+  State<CustomAnimation> createState() => _CustomAnimationState();
 }
 
 class _CustomAnimationState extends State<CustomAnimation>
