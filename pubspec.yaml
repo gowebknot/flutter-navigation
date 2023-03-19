@@ -1,5 +1,5 @@
 name: navigation_panel
-description: Minimal Navigation Menus
+description: A cross platform package to simply add Minimal & Animated Navigation Menus to your Flutter Project. 
 version: 0.0.2
 homepage: 'https://github.com/gowebknot/flutter-navigation/tree/dev-stable'
 

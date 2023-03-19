@@ -1,5 +1,8 @@
 ## 0.0.1
 
-* TODO: Describe initial release.
+- Initial Release (Beta Version)
 
 ## 0.0.2
+
+- 🚚 demo folder renamed to example
+

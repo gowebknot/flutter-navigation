@@ -97,8 +97,7 @@ class _MyHomePageState extends State<MyHomePage> {
           ],
         ),
         floatingActionButton: _navs == AnimatedNavs.centerDocked
-            ? CenterDockedAnimatedNav(
-              navItems: [
+            ? CenterDockedAnimatedNav(navItems: [
                 MenuNavItem(onTap: () {}, icon: LineIcons.amazonWebServicesAws),
                 MenuNavItem(onTap: () {}, icon: LineIcons.fire),
                 MenuNavItem(onTap: () {}, icon: LineIcons.meteor),
