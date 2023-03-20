@@ -8,7 +8,7 @@ import 'package:navigation_panel/src/utils/utils.dart';
 import 'package:flutter/material.dart';
 
 /// class BottomNavButton
-/// 
+///
 /// Main menu button widget for [CenterDockedAnimatedNav]
 class BottomNavButton extends StatefulWidget {
   final VoidCallback? onTap;
