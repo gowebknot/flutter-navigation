@@ -44,14 +44,21 @@ class CenterDockedAnimatedNav extends StatefulWidget {
 
 class _CenterDockedAnimatedNavState extends State<CenterDockedAnimatedNav>
     with SingleTickerProviderStateMixin {
+  /// Main menu radius
   final double menuRadius = 168.0;
+
+  /// Menu Icon radius
   final double buttonRadius = 60.0;
   Map<int, double> anglesMap = {5: 58, 4: 72, 3: 96, 2: 120, 1: 120};
 
+  /// animation controller
   late AnimationController _controller;
   late final Animation<double> _expandAnimation;
 
+  /// menu initial state
   bool _isOpen = false;
+
+  /// initial active index
   int currentActiveButtonIndex = 0;
 
   /// on init

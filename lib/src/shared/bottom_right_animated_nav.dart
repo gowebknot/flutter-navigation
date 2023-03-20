@@ -62,14 +62,19 @@ class EndDockedAnimatedNavState extends State<EndDockedAnimatedNav>
   Alignment menuAlignment = Alignment.bottomRight;
   final ShapeBorder _fabIconBorder = const CircleBorder();
 
+  /// animation controllers
   late AnimationController _animationController;
   late AnimationController _animationController2;
+
+  /// animation type
   late Animation<double> _scaleAnimation;
   late Animation _scaleCurve;
   late Animation<double> _rotateAnimation;
   late Animation _rotateCurve;
   Animation<Color?>? _colorAnimation;
   late Animation _colorCurve;
+
+  /// menu initial state
   bool _isOpen = false;
   bool _isAnimating = false;
   List<MenuNavItem> localChild = [];
@@ -257,6 +262,7 @@ class EndDockedAnimatedNavState extends State<EndDockedAnimatedNav>
     );
   }
 
+  /// calculate properties when user clicks on menu button
   void _calculateProps() {
     _menuOpenColor = widget.menuBgColor ?? Theme.of(context).primaryColor;
     _screenWidth = MediaQuery.of(context).size.width;
@@ -287,6 +293,7 @@ class EndDockedAnimatedNavState extends State<EndDockedAnimatedNav>
     }
   }
 
+  /// open menu
   void open() {
     _isAnimating = true;
     _animationController.forward().then((_) {
@@ -295,6 +302,7 @@ class EndDockedAnimatedNavState extends State<EndDockedAnimatedNav>
     });
   }
 
+  /// close menu
   void close() {
     _isAnimating = true;
     _animationController.reverse().then((_) {
@@ -303,6 +311,7 @@ class EndDockedAnimatedNavState extends State<EndDockedAnimatedNav>
     });
   }
 
+  /// re arrange menu items after clicking on Icon
   void reArrangeItems({required int index}) {
     List<MenuNavItem> tempList = [];
     tempList.add(localChild.elementAt(index));
@@ -324,6 +333,7 @@ class EndDockedAnimatedNavState extends State<EndDockedAnimatedNav>
   bool get isOpen => _isOpen;
 }
 
+/// class [WheelPainter]
 class WheelPainter extends CustomPainter {
   final double? width;
   final Color activeBgColor;

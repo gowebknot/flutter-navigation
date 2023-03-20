@@ -41,13 +41,20 @@ class CenterFloatAnimatedNav extends StatefulWidget {
 
 class _CenterFloatAnimatedNavState extends State<CenterFloatAnimatedNav>
     with SingleTickerProviderStateMixin {
+  /// Main Menu radius
   final double menuRadius = 168.0;
+
+  /// Each menu button radius
   final double buttonRadius = 44.0;
 
+  /// animation controller
   late AnimationController _controller;
   late final Animation<double> _expandAnimation;
 
+  /// menu initial state
   bool _isOpen = false;
+
+  /// default active menu button
   int currentActiveButtonIndex = 0;
 
   /// on init

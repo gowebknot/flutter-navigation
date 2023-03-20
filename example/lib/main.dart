@@ -2,10 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:line_icons/line_icons.dart';
 import 'package:navigation_panel/navigation_panel.dart';
 
+/// application entry point
 void main() {
   runApp(const MyApp());
 }
 
+/// class [MyApp]
+///
+/// Example for the package
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
 
@@ -22,8 +26,10 @@ class MyApp extends StatelessWidget {
   }
 }
 
+/// Different Types of Available Navs
 enum AnimatedNavs { centerFloat, centerDocked, endDocked }
 
+/// class [MyHomePage]
 class MyHomePage extends StatefulWidget {
   const MyHomePage({Key? key, required this.title}) : super(key: key);
 
@@ -35,6 +41,8 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   static const Color primaryColor = Color(0xff613EEA);
+
+  /// initial menu open state
   bool toggle = false;
   final GlobalKey<EndDockedAnimatedNavState> animatedNavKey = GlobalKey();
   AnimatedNavs? _navs = AnimatedNavs.centerDocked;
