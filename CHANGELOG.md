@@ -9,3 +9,8 @@
 ## 0.0.3
 
 - Documentation improved
+
+## 1.0.0
+
+- Added video demo to Readme File
+- Improved Documentation
