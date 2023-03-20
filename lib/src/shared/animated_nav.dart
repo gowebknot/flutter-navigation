@@ -1,12 +1,20 @@
-// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
-
+/*
+* Created on 20 Mar 2023
+* 
+* @author Sai
+* Copyright (c) 2023 Webknot
+*/
 import 'package:navigation_panel/navigation_panel.dart';
+import 'package:navigation_panel/src/shared/colors.dart';
 import 'package:navigation_panel/src/shared/icon_button.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:line_icons/line_icons.dart';
 import 'dart:math' as math;
 
+/// class [CenterFloatAnimatedNav]
+///
+/// Center Float Main Navigation Menu Widget
 class CenterFloatAnimatedNav extends StatefulWidget {
   final List<MenuNavItem> navItems;
   final Color backgroundColor;
@@ -19,12 +27,12 @@ class CenterFloatAnimatedNav extends StatefulWidget {
   const CenterFloatAnimatedNav(
       {Key? key,
       required this.navItems,
-      this.backgroundColor = whiteColor,
-      this.menuBgColor = primaryColor,
-      this.navItemIconColor = blackColor,
-      this.activeNavItemIconColor = whiteColor,
-      this.activeNavItemBackground = secondaryColor,
-      this.menuIconColor = whiteColor})
+      this.backgroundColor = AppColors.whiteColor,
+      this.menuBgColor = AppColors.primaryColor,
+      this.navItemIconColor = AppColors.blackColor,
+      this.activeNavItemIconColor = AppColors.whiteColor,
+      this.activeNavItemBackground = AppColors.secondaryColor,
+      this.menuIconColor = AppColors.whiteColor})
       : super(key: key);
 
   @override
@@ -42,6 +50,7 @@ class _CenterFloatAnimatedNavState extends State<CenterFloatAnimatedNav>
   bool _isOpen = false;
   int currentActiveButtonIndex = 0;
 
+  /// on init
   @override
   void initState() {
     _controller = AnimationController(
@@ -57,12 +66,16 @@ class _CenterFloatAnimatedNavState extends State<CenterFloatAnimatedNav>
     super.initState();
   }
 
+  /// overriding dispose method
+  ///
+  /// triggers when object is removed from tree
   @override
   void dispose() {
     _controller.dispose();
     super.dispose();
   }
 
+  /// returns center positioned Main Navigation Menu
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -76,7 +89,8 @@ class _CenterFloatAnimatedNavState extends State<CenterFloatAnimatedNav>
               alignment: FractionalOffset.center,
               child: Container(
                 decoration: BoxDecoration(
-                    borderRadius: BorderRadius.all(Radius.circular(100.0)),
+                    borderRadius:
+                        const BorderRadius.all(Radius.circular(100.0)),
                     color: widget.backgroundColor),
                 height: menuRadius,
                 width: menuRadius,
@@ -125,7 +139,8 @@ class _CenterFloatAnimatedNavState extends State<CenterFloatAnimatedNav>
                           spreadRadius: 1.0,
                         )
                       ],
-                      borderRadius: BorderRadius.all(Radius.circular(100.0)),
+                      borderRadius:
+                          const BorderRadius.all(Radius.circular(100.0)),
                       color: widget.menuBgColor),
                   height: buttonRadius,
                   width: buttonRadius,
@@ -146,6 +161,9 @@ class _CenterFloatAnimatedNavState extends State<CenterFloatAnimatedNav>
   }
 }
 
+/// class [_ExpandingActionButton]
+///
+/// Each _ExpandingActionButton represents one Menu Icon
 @immutable
 class _ExpandingActionButton extends StatefulWidget {
   final double directionInDegrees;

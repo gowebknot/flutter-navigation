@@ -1,6 +1,15 @@
+/*
+* Created on 20 Mar 2023
+* 
+* @author Sai
+* Copyright (c) 2023 Webknot
+*/
 import 'package:navigation_panel/src/utils/utils.dart';
 import 'package:flutter/material.dart';
 
+/// class BottomNavButton
+/// 
+/// Main menu button widget for [CenterDockedAnimatedNav]
 class BottomNavButton extends StatefulWidget {
   final VoidCallback? onTap;
   final IconData icon;

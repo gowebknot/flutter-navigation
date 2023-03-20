@@ -1,6 +1,15 @@
+/*
+* Created on 20 Mar 2023
+* 
+* @author Sai
+* Copyright (c) 2023 Webknot
+*/
 import 'package:navigation_panel/src/utils/utils.dart';
 import 'package:flutter/material.dart';
 
+/// class [NavButton]
+///
+/// IconButton for [CenterFloatAnimatedNav] menu
 class NavButton extends StatefulWidget {
   final VoidCallback? onTap;
   final IconData icon;
@@ -23,8 +32,13 @@ class NavButton extends StatefulWidget {
   State<NavButton> createState() => _NavButtonState();
 }
 
+/// Private class [_NavButtonState]
+///
+/// Creates state for stateful widget [NavButton]
 class _NavButtonState extends State<NavButton>
     with SingleTickerProviderStateMixin {
+  ///
+  /// Returns Small Rounded Button for [CenterFloatAnimatedNav] menu
   @override
   Widget build(BuildContext context) {
     return InkWell(

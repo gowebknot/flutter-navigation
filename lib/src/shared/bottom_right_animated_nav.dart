@@ -1,4 +1,9 @@
-// ignore_for_file: depend_on_referenced_packages
+/*
+* Created on 20 Mar 2023
+* 
+* @author Sai
+* Copyright (c) 2023 Webknot
+*/
 import 'dart:math';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -6,6 +11,9 @@ import 'package:navigation_panel/src/shared/colors.dart';
 import 'package:navigation_panel/src/shared/menu_nav_item.dart';
 import 'package:vector_math/vector_math.dart' as vector;
 
+/// class [EndDockedAnimatedNav]
+///
+/// End docked navigation menu widget
 class EndDockedAnimatedNav extends StatefulWidget {
   final List<MenuNavItem> navItems;
   final Color? menuBgColor;
@@ -20,11 +28,11 @@ class EndDockedAnimatedNav extends StatefulWidget {
       {Key? key,
       this.menuBgColor,
       this.menuOpenIcon = const Icon(Icons.menu),
-      this.activeNavItemBgColor = pinkColor,
-      this.navItemPrimaryBgColor = blackColor2,
-      this.navItemSecondaryBgColor = greyBgColor,
+      this.activeNavItemBgColor = AppColors.pinkColor,
+      this.navItemPrimaryBgColor = AppColors.blackColor2,
+      this.navItemSecondaryBgColor = AppColors.greyBgColor,
       this.menuCloseIcon = const Icon(Icons.close),
-      this.navItemsIconColor = whiteColor,
+      this.navItemsIconColor = AppColors.whiteColor,
       required this.navItems})
       : assert(navItems.length >= 1),
         super(key: key);
@@ -66,6 +74,7 @@ class EndDockedAnimatedNavState extends State<EndDockedAnimatedNav>
   bool _isAnimating = false;
   List<MenuNavItem> localChild = [];
 
+  /// on init
   @override
   void initState() {
     localChild = widget.navItems;
@@ -95,6 +104,9 @@ class EndDockedAnimatedNavState extends State<EndDockedAnimatedNav>
       });
   }
 
+  /// overriding dispose method
+  ///
+  /// triggers when object is removed from tree
   @override
   void dispose() {
     _animationController.dispose();

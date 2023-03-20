@@ -1,6 +1,15 @@
+/*
+* Created on 20 Mar 2023
+* 
+* @author Sai
+* Copyright (c) 2023 Webknot
+*/
 import 'package:navigation_panel/src/utils/utils.dart';
 import 'package:flutter/material.dart';
 
+/// class [BottomRightNavButton]
+///
+/// Main menu button for [EndDockedAnimatedNav] Menu
 class BottomRightNavButton extends StatefulWidget {
   final VoidCallback? onTap;
   final IconData icon;
@@ -21,6 +30,9 @@ class BottomRightNavButton extends StatefulWidget {
   State<BottomRightNavButton> createState() => _BottomNavButtonState();
 }
 
+/// Private class [_BottomNavButtonState]
+///
+/// Creates state for stateful widget [BottomRightNavButton]
 class _BottomNavButtonState extends State<BottomRightNavButton>
     with SingleTickerProviderStateMixin {
   @override

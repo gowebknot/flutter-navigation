@@ -1,10 +1,20 @@
+/*
+* Created on 20 Mar 2023
+* 
+* @author Sai
+* Copyright (c) 2023 Webknot
+*/
 import 'dart:math' as math;
 import 'package:navigation_panel/navigation_panel.dart';
 import 'package:navigation_panel/src/shared/bottom_nav_icon_button.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:line_icons/line_icons.dart';
+import 'package:navigation_panel/src/shared/colors.dart';
 
+/// class [CenterDockedAnimatedNav]
+///
+/// center docked navigation menu widget
 class CenterDockedAnimatedNav extends StatefulWidget {
   final List<MenuNavItem> navItems;
   final Color navItemIconColor;
@@ -17,13 +27,13 @@ class CenterDockedAnimatedNav extends StatefulWidget {
   const CenterDockedAnimatedNav(
       {Key? key,
       required this.navItems,
-      this.activeNavItemIconColor = whiteColor,
-      this.backgroundColor = whiteColor,
-      this.menuIconColor = greyBgColor,
-      this.menuItemsFirstColor = blackColor,
-      this.menuItemsSecondColor = greyBgColor,
-      this.activeNavItemBgColor = pinkColor,
-      this.navItemIconColor = whiteColor})
+      this.activeNavItemIconColor = AppColors.whiteColor,
+      this.backgroundColor = AppColors.whiteColor,
+      this.menuIconColor = AppColors.greyBgColor,
+      this.menuItemsFirstColor = AppColors.blackColor,
+      this.menuItemsSecondColor = AppColors.greyBgColor,
+      this.activeNavItemBgColor = AppColors.pinkColor,
+      this.navItemIconColor = AppColors.whiteColor})
       : assert(navItems.length >= 1 && navItems.length <= 5),
         super(key: key);
 
@@ -44,6 +54,7 @@ class _CenterDockedAnimatedNavState extends State<CenterDockedAnimatedNav>
   bool _isOpen = false;
   int currentActiveButtonIndex = 0;
 
+  /// on init
   @override
   void initState() {
     _controller = AnimationController(
@@ -59,12 +70,16 @@ class _CenterDockedAnimatedNavState extends State<CenterDockedAnimatedNav>
     super.initState();
   }
 
+  /// overriding dispose method
+  ///
+  /// triggers when object is removed from tree
   @override
   void dispose() {
     _controller.dispose();
     super.dispose();
   }
 
+  /// Returns main view for center docked navigation menu
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -175,6 +190,9 @@ class _CenterDockedAnimatedNavState extends State<CenterDockedAnimatedNav>
   }
 }
 
+/// class [_ExpandingActionButton]
+///
+/// Each _ExpandingActionButton represents one Menu Icon
 @immutable
 class _ExpandingActionButton extends StatefulWidget {
   const _ExpandingActionButton(
@@ -240,6 +258,10 @@ class _ExpandingActionButtonState extends State<_ExpandingActionButton> {
   }
 }
 
+/// class [_WheelPainter]
+///
+/// Divides a semi circle into [widgetsCount] equal parts
+///
 class _WheelPainter extends CustomPainter {
   int index = 0;
   int widgetsCount = 0;

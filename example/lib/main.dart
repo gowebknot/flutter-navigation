@@ -34,6 +34,7 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+  static const Color primaryColor = Color(0xff613EEA);
   bool toggle = false;
   final GlobalKey<EndDockedAnimatedNavState> animatedNavKey = GlobalKey();
   AnimatedNavs? _navs = AnimatedNavs.centerDocked;
@@ -108,8 +109,10 @@ class _MyHomePageState extends State<MyHomePage> {
                 ? EndDockedAnimatedNav(
                     key: animatedNavKey,
                     menuBgColor: Colors.white,
-                    menuOpenIcon: const Icon(Icons.menu, color: primaryColor),
-                    menuCloseIcon: const Icon(Icons.close, color: primaryColor),
+                    menuOpenIcon:
+                        const Icon(Icons.menu, color: primaryColor),
+                    menuCloseIcon:
+                        const Icon(Icons.close, color: primaryColor),
                     navItems: [
                         MenuNavItem(onTap: () {}, icon: LineIcons.fire),
                         MenuNavItem(onTap: () {}, icon: LineIcons.meteor),
