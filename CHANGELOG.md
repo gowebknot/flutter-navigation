@@ -14,3 +14,7 @@
 
 - Added video demo to Readme File
 - Improved Documentation
+
+## 1.0.1
+
+ - Removed Video Demos and replaced with GIFs

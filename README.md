@@ -1,6 +1,6 @@
 ![License](https://img.shields.io/badge/license-MIT-blue.svg?style=for-the-badge&color=blue)
 
-Here's to reinventing the wheel. 
+Here's to reinventing the wheel.
 
 We got bored of the traditional bottom navigation bar and the hamburger menu. We've designed a few unique options to replace them.
 
@@ -14,12 +14,10 @@ Implement them on your next project. We know we will.
 2. Center Docked Menu - `CenterDockedAnimatedNav`
 3. End Docked Menu - `EndDockedAnimatedNav`
 
+<img src="https://raw.githubusercontent.com/gowebknot/flutter-navigation/dev-stable/doc/CF.gif" alt="Center Float" width="240"/> 
+<img src="https://raw.githubusercontent.com/gowebknot/flutter-navigation/dev-stable/doc/CD.gif" alt="Center Docked" width="240"/> 
+<img src="https://raw.githubusercontent.com/gowebknot/flutter-navigation/dev-stable/doc/ED.gif" alt="End Float" width="240"/>
 
-https://user-images.githubusercontent.com/39739036/226420468-eadaff52-bbdf-437f-bdb1-0fa9f50c0245.mov
-
-https://user-images.githubusercontent.com/39739036/226420812-9cb3c8c8-8c86-4101-a1c6-a3a144f63bc9.mov
-
-https://user-images.githubusercontent.com/39739036/226420904-979180db-b474-4097-9eac-ea046c05d5c8.mov
 
 # Installation
 
