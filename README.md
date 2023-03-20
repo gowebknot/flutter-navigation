@@ -15,9 +15,11 @@ Implement them on your next project. We know we will.
 3. End Docked Menu - `EndDockedAnimatedNav`
 
 
-   ![centerFloat menu](https://raw.githubusercontent.com/gowebknot/flutter-navigation/sai/demo/screenshots/centerFloat.png?token=GHSAT0AAAAAABVOHJ6DUNG5YIM3UFHAXEASYZ5RMCA)
-   ![centerDocked menu](https://raw.githubusercontent.com/gowebknot/flutter-navigation/sai/demo/screenshots/centerDocked.png?token=GHSAT0AAAAAABVOHJ6DGERNC44IBXQTDSPOYZ5RPGA)
-   ![endDocked menu](https://raw.githubusercontent.com/gowebknot/flutter-navigation/sai/demo/screenshots/endDocked.png?token=GHSAT0AAAAAABVOHJ6C75A65FVPJZUKIO2YYZ5RMIQ)
+https://user-images.githubusercontent.com/39739036/226420468-eadaff52-bbdf-437f-bdb1-0fa9f50c0245.mov
+
+https://user-images.githubusercontent.com/39739036/226420812-9cb3c8c8-8c86-4101-a1c6-a3a144f63bc9.mov
+
+https://user-images.githubusercontent.com/39739036/226420904-979180db-b474-4097-9eac-ea046c05d5c8.mov
 
 # Installation
 
